@@ -1,6 +1,25 @@
 import { screen, waitFor } from "@testing-library/react"
 import App from "./App"
 import { renderWithProviders } from "./utils/test-utils"
+import { RememberGate } from "./features/remember/RememberGate"
+
+beforeEach(() => window.localStorage.clear())
+
+test("RememberGate should display a loading screen until state is rehydrated", async () => {
+  const { store } = renderWithProviders(
+    <RememberGate>
+      <App />
+    </RememberGate>,
+  )
+  expect(store.getState().remember.isRehydrated).toBeFalsy()
+  expect(screen.getByTestId("remembering")).toBeInTheDocument()
+
+  await waitFor(() => {
+    expect(store.getState().remember.isRehydrated).toBeTruthy()
+  })
+
+  expect(screen.queryByTestId("remembering")).not.toBeInTheDocument()
+})
 
 test("App should have correct initial render", () => {
   renderWithProviders(<App />)
