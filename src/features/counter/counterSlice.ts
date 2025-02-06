@@ -55,6 +55,7 @@ export const counterSlice = createAppSlice({
           state.status = "idle"
           state.value += action.payload
         },
+        /* v8 ignore next 3 */
         rejected: state => {
           state.status = "failed"
         },
