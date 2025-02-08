@@ -20,12 +20,12 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "src/setupTests",
     mockReset: true,
-    reporters: ["junit"],
+    reporters: ["default", "junit"],
     outputFile: "test-report.junit.xml",
     coverage: {
       provider: "v8",
       include: ["src"],
-      exclude: ["src/main.tsx"],
+      exclude: ["src/main.tsx", "src/setupTests.ts"],
     },
   },
 })
