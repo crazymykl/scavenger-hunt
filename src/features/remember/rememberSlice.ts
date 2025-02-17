@@ -10,6 +10,9 @@ export const rememberSlice = createSlice({
   name: "remember",
   initialState,
   reducers: {},
+  selectors: {
+    selectRehydrated: remember => remember.isRehydrated,
+  },
   extraReducers: builder =>
     builder
       .addCase(createAction(REMEMBER_REHYDRATED), (state, _action) => {
@@ -20,3 +23,5 @@ export const rememberSlice = createSlice({
         state.isPersisted = true
       }),
 })
+
+export const { selectRehydrated } = rememberSlice.selectors
