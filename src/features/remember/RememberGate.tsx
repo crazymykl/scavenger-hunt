@@ -1,8 +1,9 @@
 import type { FC, PropsWithChildren } from "react"
 import { useAppSelector } from "../../app/hooks"
+import { selectRehydrated } from "./rememberSlice"
 
 export const RememberGate: FC<PropsWithChildren> = ({ children }) => {
-  const isRehydrated = useAppSelector(state => state.remember.isRehydrated)
+  const isRehydrated = useAppSelector(selectRehydrated)
 
   return isRehydrated ? (
     children

@@ -15,6 +15,16 @@ test("App should have correct initial render", () => {
   expect(screen.getByLabelText("Set increment amount")).toHaveValue(2)
 })
 
+test("Theme toggle should work", async () => {
+  const { user } = renderWithProviders(<App />)
+
+  expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
+  await user.click(screen.getByText("Toggle"))
+  expect(document.documentElement.dataset.mantineColorScheme).toEqual("dark")
+  await user.click(screen.getByText("Toggle"))
+  expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
+})
+
 test("Increment value and Decrement value should work as expected", async () => {
   const { user } = renderWithProviders(<App />)
 
