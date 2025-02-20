@@ -15,7 +15,7 @@ const rootReducer = rememberReducer(
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>
 
-const rememberedKeys = [counterSlice.name]
+const rememberedKeys = [huntSlice.name]
 
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config

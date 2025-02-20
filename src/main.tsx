@@ -5,6 +5,7 @@ import App from "./App"
 import { store } from "./app/store"
 import "./index.css"
 import { RememberGate } from "./features/remember/RememberGate"
+import { BrowserRouter } from "react-router"
 
 const container = document.getElementById("root")
 
@@ -15,7 +16,9 @@ if (container) {
     <React.StrictMode>
       <Provider store={store}>
         <RememberGate>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </RememberGate>
       </Provider>
     </React.StrictMode>,
