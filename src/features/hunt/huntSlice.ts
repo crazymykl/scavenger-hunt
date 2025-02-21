@@ -1,5 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { createSelector, createSlice } from "@reduxjs/toolkit"
+import { createSelector } from "@reduxjs/toolkit"
+import { createAppSlice } from "../../app/createAppSlice"
 
 type ItemId = string
 
@@ -71,7 +72,7 @@ const selectProgressById = createSelector(
   (progress, itemId) => progress[itemId],
 )
 
-export const huntSlice = createSlice({
+export const huntSlice = createAppSlice({
   name: "hunt",
   initialState,
   reducers: create => ({

@@ -2,15 +2,12 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { rememberReducer, rememberEnhancer } from "redux-remember"
-import { counterSlice } from "../features/counter/counterSlice"
 import { rememberSlice } from "../features/remember/rememberSlice"
 import { huntSlice } from "../features/hunt/huntSlice"
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = rememberReducer(
-  combineSlices(counterSlice, rememberSlice, huntSlice),
-)
+const rootReducer = rememberReducer(combineSlices(rememberSlice, huntSlice))
 
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>
