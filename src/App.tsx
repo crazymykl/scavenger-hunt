@@ -1,8 +1,6 @@
 import "./App.css"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
-import { Navigate, Route, Routes, useNavigate, useParams } from "react-router"
-import { Counter } from "./features/counter/Counter"
-import logo from "./logo.svg"
+import { Navigate, Route, Routes, useParams } from "react-router"
 import { Hunt, ItemDetails } from "./features/hunt/Hunt"
 import { ThemeToggle } from "./features/theme/ThemeToggle"
 
@@ -15,18 +13,9 @@ const App = () => {
       <MantineProvider defaultColorScheme="auto">
         <div className="App">
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
             <ThemeToggle />
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <>
-                    <Counter />
-                    <Hunt />
-                  </>
-                }
-              >
+              <Route path="/" element={<Hunt />}>
                 <Route
                   path="/find/:id/:code?"
                   element={<ItemDetailsHelper />}
