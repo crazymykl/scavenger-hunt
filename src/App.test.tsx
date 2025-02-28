@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react"
+import { fireEvent, screen, waitFor } from "@testing-library/react"
 import App from "./App"
 import { renderWithProviders } from "./utils/test-utils"
 
@@ -35,16 +35,33 @@ test("Viewing details of an invalid id redirects to the root", () => {
 test("Finding an item should work as expected", async () => {
   const { user } = renderWithProviders(<App />)
   await user.click(screen.getByAltText("find one"))
-  await user.click(screen.getByText("Find"))
+  await user.keyboard("111111")
 
-  expect(screen.getByAltText("found one")).toBeInTheDocument()
+  await waitFor(() =>
+    expect(screen.getByAltText("found one")).toBeInTheDocument(),
+  )
+})
+
+test("Wrong code blocks finding", async () => {
+  const { user } = renderWithProviders(<App />)
+  await user.click(screen.getByAltText("find one"))
+  const [pinInput] = screen.getAllByLabelText("PinInput")
+  await user.keyboard("111112")
+
+  await waitFor(() =>
+    expect(pinInput.dataset["error"]).toEqual("true"),
+  )
+  await waitFor(() =>
+    expect(pinInput.dataset["error"]).toBeUndefined(),
+  )
 })
 
 test("Starting over should work as expected", async () => {
-  const { user } = renderWithProviders(<App />, { route: "/find/1" })
-  await user.click(screen.getByText("Find"))
+  const { user } = renderWithProviders(<App />, { route: "/find/1/111111" })
 
-  expect(screen.getByAltText("found one")).toBeInTheDocument()
+  await waitFor(() =>
+    expect(screen.getByAltText("found one")).toBeInTheDocument(),
+  )
   await user.keyboard("[Escape]")
 
   await user.click(screen.getByText("Reset"))
