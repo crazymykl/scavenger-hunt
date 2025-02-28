@@ -5,7 +5,7 @@ import { createAppSlice } from "../../app/createAppSlice"
 type ItemId = string
 
 // FIXME
-type Item = {
+export type Item = {
   id: ItemId
   name: string
   searchText: string
