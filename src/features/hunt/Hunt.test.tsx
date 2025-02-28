@@ -11,9 +11,13 @@ test("Renders item yet to be found", async () => {
 })
 
 test("Renders item already found", () => {
-  act(() => {
-    const { store } = renderWithProviders(<Item id="1" />)
-    store.dispatch(huntSlice.actions.markItemFound("1"))
+  renderWithProviders(<Item id="1" />, {
+    preloadedState: {
+      hunt: {
+        ...huntSlice.getInitialState(),
+        progress: { "1": { found: "1" } },
+      },
+    },
   })
 
   expect(screen.queryByAltText("found one")).toBeInTheDocument()
@@ -22,7 +26,7 @@ test("Renders item already found", () => {
 test("Renders item unfound after reset", () => {
   act(() => {
     const { store } = renderWithProviders(<Item id="1" />)
-    store.dispatch(huntSlice.actions.markItemFound("1"))
+    store.dispatch(huntSlice.actions.markItemFound({ id: "1", code: "1" }))
     store.dispatch(huntSlice.actions.startOver())
   })
 

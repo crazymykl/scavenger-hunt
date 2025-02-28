@@ -6,6 +6,7 @@ import { store } from "./app/store"
 import "./index.css"
 import { RememberGate } from "./features/remember/RememberGate"
 import { BrowserRouter } from "react-router"
+import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 
 const container = document.getElementById("root")
 
@@ -15,11 +16,14 @@ if (container) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
-        <RememberGate>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </RememberGate>
+        <ColorSchemeScript defaultColorScheme="auto" />
+        <MantineProvider defaultColorScheme="auto">
+          <RememberGate>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </RememberGate>
+        </MantineProvider>
       </Provider>
     </React.StrictMode>,
   )

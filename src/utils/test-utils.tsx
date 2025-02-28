@@ -6,6 +6,7 @@ import { Provider } from "react-redux"
 import type { AppStore, RootState } from "../app/store"
 import { makeStore } from "../app/store"
 import { MemoryRouter } from "react-router"
+import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 
 /**
  * This type extends the default options for
@@ -58,7 +59,10 @@ export const renderWithProviders = (
 
   const Wrapper = ({ children }: PropsWithChildren) => (
     <Provider store={store}>
-      <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+      <ColorSchemeScript defaultColorScheme="auto" />
+      <MantineProvider defaultColorScheme="auto">
+        <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+      </MantineProvider>
     </Provider>
   )
 

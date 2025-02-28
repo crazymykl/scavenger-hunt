@@ -76,13 +76,15 @@ export const huntSlice = createAppSlice({
   name: "hunt",
   initialState,
   reducers: create => ({
-    markItemFound: create.reducer((state, action: PayloadAction<string>) => {
-      const foundItem = state.items.find(i => i.id === action.payload)
+    markItemFound: create.reducer(
+      (state, action: PayloadAction<{ id: string; code: string }>) => {
+        const foundItem = state.items.find(i => i.id === action.payload.id)
 
-      if (foundItem) {
-        state.progress[foundItem.id] = { found: action.payload }
-      }
-    }),
+        if (foundItem) {
+          state.progress[foundItem.id] = { found: action.payload.code }
+        }
+      },
+    ),
     startOver: create.reducer(state => {
       state.progress = initProgress(state.items)
     }),

@@ -22,7 +22,7 @@ describe<LocalTestContext>("counter reducer", it => {
       huntSlice.selectors.selectProgressById(store.getState(), "1"),
     ).toEqual("unfound")
 
-    store.dispatch(huntSlice.actions.markItemFound("1"))
+    store.dispatch(huntSlice.actions.markItemFound({ id: "1", code: "1" }))
 
     expect(
       huntSlice.selectors.selectProgressById(store.getState(), "1"),
