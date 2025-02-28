@@ -33,7 +33,7 @@ test("Viewing details of an invalid id redirects to the root", () => {
 })
 
 test("Finding an item should work as expected", async () => {
-  const { user } = renderWithProviders(<App />)
+  const { user } = renderWithProviders(<App transitionDuration={50} />)
   await user.click(screen.getByAltText("find one"))
   await user.keyboard("111111")
 
@@ -43,7 +43,7 @@ test("Finding an item should work as expected", async () => {
 })
 
 test("Wrong code blocks finding", async () => {
-  const { user } = renderWithProviders(<App />)
+  const { user } = renderWithProviders(<App transitionDuration={50} />)
   await user.click(screen.getByAltText("find one"))
   const [pinInput] = screen.getAllByLabelText("PinInput")
   await user.keyboard("111112")
@@ -53,7 +53,9 @@ test("Wrong code blocks finding", async () => {
 })
 
 test("Starting over should work as expected", async () => {
-  const { user } = renderWithProviders(<App />, { route: "/find/1/111111" })
+  const { user } = renderWithProviders(<App transitionDuration={50} />, {
+    route: "/find/1/111111",
+  })
 
   await waitFor(() =>
     expect(screen.getByAltText("found one")).toBeInTheDocument(),
