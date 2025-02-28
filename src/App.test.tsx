@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react"
+import { screen, waitFor } from "@testing-library/react"
 import App from "./App"
 import { renderWithProviders } from "./utils/test-utils"
 
@@ -48,12 +48,8 @@ test("Wrong code blocks finding", async () => {
   const [pinInput] = screen.getAllByLabelText("PinInput")
   await user.keyboard("111112")
 
-  await waitFor(() =>
-    expect(pinInput.dataset["error"]).toEqual("true"),
-  )
-  await waitFor(() =>
-    expect(pinInput.dataset["error"]).toBeUndefined(),
-  )
+  await waitFor(() => expect(pinInput.dataset["error"]).toEqual("true"))
+  await waitFor(() => expect(pinInput.dataset["error"]).toBeUndefined())
 })
 
 test("Starting over should work as expected", async () => {

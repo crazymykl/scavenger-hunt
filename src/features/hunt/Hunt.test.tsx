@@ -1,17 +1,17 @@
 import { screen } from "@testing-library/react"
 import { renderWithProviders } from "../../utils/test-utils"
-import { Item } from "./Hunt"
+import { Hunt } from "./Hunt"
 import { huntSlice } from "./huntSlice"
 import { act } from "react"
 
 test("Renders item yet to be found", async () => {
-  renderWithProviders(<Item id="1" />)
+  renderWithProviders(<Hunt.Item id="1" />)
 
   expect(screen.queryByAltText("find one")).toBeInTheDocument()
 })
 
 test("Renders item already found", () => {
-  renderWithProviders(<Item id="1" />, {
+  renderWithProviders(<Hunt.Item id="1" />, {
     preloadedState: {
       hunt: {
         ...huntSlice.getInitialState(),
@@ -25,7 +25,7 @@ test("Renders item already found", () => {
 
 test("Renders item unfound after reset", () => {
   act(() => {
-    const { store } = renderWithProviders(<Item id="1" />)
+    const { store } = renderWithProviders(<Hunt.Item id="1" />)
     store.dispatch(huntSlice.actions.markItemFound({ id: "1", code: "1" }))
     store.dispatch(huntSlice.actions.startOver())
   })
@@ -34,7 +34,7 @@ test("Renders item unfound after reset", () => {
 })
 
 test("Invalid Item renders missingItem", async () => {
-  renderWithProviders(<Item id="foo" />)
+  renderWithProviders(<Hunt.Item id="foo" />)
 
   expect(screen.queryByTestId("missingItem")).toBeInTheDocument()
 })

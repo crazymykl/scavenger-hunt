@@ -1,12 +1,12 @@
 import "./App.css"
 import { Navigate, Route, Routes, useParams } from "react-router"
-import { Hunt, ItemDetails } from "./features/hunt/Hunt"
+import { Hunt } from "./features/hunt/Hunt"
 import { ThemeToggle } from "./features/theme/ThemeToggle"
 
 const ItemDetailsHelper = () => {
   const { id, code } = useParams()
 
-  return <ItemDetails id={id!} code={code} />
+  return <Hunt.ItemDetails id={id!} code={code} />
 }
 
 const App = () => {
