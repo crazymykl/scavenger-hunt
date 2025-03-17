@@ -14,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import type { Item } from "./huntSlice"
 import { huntSlice } from "./huntSlice"
+import styles from "./ItemDetails.module.css"
 
 type CodeInputState =
   | { state: "ready" }
@@ -114,6 +115,7 @@ const UnfoundItemDetailsBody = ({
       <Center>
         <Stack>
           <PinInput
+            className={styles.codeEntry}
             value={value}
             length={6}
             oneTimeCode={false}
