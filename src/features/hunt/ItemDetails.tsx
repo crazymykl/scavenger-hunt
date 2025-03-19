@@ -13,16 +13,13 @@ import {
 } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import type { Item } from "./huntSlice"
-import { huntSlice } from "./huntSlice"
+import { huntSlice, validCode } from "./huntSlice"
 import styles from "./ItemDetails.module.css"
 
 type CodeInputState =
   | { state: "ready" }
   | { state: "check"; code: string }
   | { state: "error" }
-
-const validCode = ({ id, code }: { id: string; code: string }) =>
-  id && code === "111111"
 
 export const ItemDetails = ({
   id,
@@ -90,9 +87,13 @@ const UnfoundItemDetailsBody = ({
     switch (codeInputState.state) {
       case "check":
         setTimeout(() => {
-          const x = { id: item.id, code: codeInputState.code }
-
-          if (validCode(x)) dispatch(huntSlice.actions.markItemFound(x))
+          if (validCode(item, codeInputState.code))
+            dispatch(
+              huntSlice.actions.markItemFound({
+                id: item.id,
+                code: codeInputState.code,
+              }),
+            )
           else setCodeInputState({ state: "error" })
         }, transitionDuration)
         break
@@ -104,7 +105,7 @@ const UnfoundItemDetailsBody = ({
         }, transitionDuration)
         break
     }
-  }, [codeInputState, dispatch, item.id, pinRef, transitionDuration])
+  }, [codeInputState, dispatch, item, pinRef, transitionDuration])
 
   return (
     <>
