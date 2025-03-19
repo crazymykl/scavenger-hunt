@@ -1,12 +1,11 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { createSelector } from "@reduxjs/toolkit"
+import cyrb53 from "cyrb53"
 import { createAppSlice } from "../../app/createAppSlice"
+import testHunt from "./testHunt.json"
 
-type ItemId = string
-
-// FIXME
-export type Item = {
-  id: ItemId
+type BaseItem = {
+  id: string
   name: string
   searchText: string
   searchImage: string
@@ -14,9 +13,18 @@ export type Item = {
   foundImage: string
 }
 
+type RawItem = BaseItem & {
+  checkCode: string
+}
+
+export type Item = BaseItem & {
+  checkCode?: never
+  checkHash: string
+}
+
 type ItemState = { found: string } | "unfound"
 
-type HuntProgress = { [k: ItemId]: ItemState }
+type HuntProgress = { [k: string]: ItemState }
 
 type HuntSliceState = {
   name: string
@@ -28,35 +36,30 @@ const makeState = (init: Omit<HuntSliceState, "progress">): HuntSliceState => {
   return { ...init, progress: initProgress(init.items) }
 }
 
-const initProgress = (items: Item[]) =>
+const initProgress = (items: Item[]): { [k: string]: "unfound" } =>
   items.reduce((acc, i) => ({ [i.id]: "unfound", ...acc }), {})
 
+const hashCode = (code: string): string =>
+  cyrb53(code).toString(36).padStart(7, "0")
+
+const hashCheckCodes = (items: RawItem[]): Item[] =>
+  items.map(({ checkCode, ...item }) => ({
+    ...item,
+    checkHash: hashCode(checkCode),
+  }))
+
 export const initialState = makeState({
-  name: "test hunt",
-  items: [
-    {
-      id: "1",
-      name: "first",
-      searchText: "find one",
-      searchImage: "https://placehold.co/200/goldenrod/white",
-      foundText: "found one",
-      foundImage: "https://placehold.co/200/green/white",
-    },
-    {
-      id: "2",
-      name: "second",
-      searchText: "find two",
-      searchImage: "https://placehold.co/200/goldenrod/white",
-      foundText: "found two",
-      foundImage: "https://placehold.co/200/green/white",
-    },
-  ],
+  ...testHunt,
+  items: hashCheckCodes(testHunt.items),
 })
+
+export const validCode = (item: Item, code: string): boolean =>
+  item.checkHash === hashCode(code)
 
 const selectItems: (hunt: HuntSliceState) => Item[] = hunt => hunt.items
 const selectProgress: (hunt: HuntSliceState) => HuntProgress = hunt =>
   hunt.progress
-const selectItemId = (_hunt: HuntSliceState, itemId: ItemId) => itemId
+const selectItemId = (_hunt: HuntSliceState, itemId: string) => itemId
 
 const selectItemIds = createSelector([selectItems], items =>
   items.map(i => i.id),
