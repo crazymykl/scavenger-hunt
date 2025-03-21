@@ -1,4 +1,8 @@
+import { dirname, resolve } from "node:path"
+import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitest/config"
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 import react from "@vitejs/plugin-react"
 import { codecovVitePlugin } from "@codecov/vite-plugin"
 
@@ -12,6 +16,14 @@ export default defineConfig({
       uploadToken: process.env.CODECOV_TOKEN,
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        admin: resolve(__dirname, "admin.html"),
+      },
+    },
+  },
   server: {
     open: true,
   },
@@ -25,7 +37,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["src"],
-      exclude: ["src/main.tsx", "src/setupTests.ts"],
+      exclude: ["src/main.tsx", "src/admin.tsx", "src/setupTests.ts"],
     },
   },
 })

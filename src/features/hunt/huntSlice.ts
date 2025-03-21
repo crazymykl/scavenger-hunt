@@ -42,15 +42,14 @@ const initProgress = (items: Item[]): { [k: string]: "unfound" } =>
 const hashCode = (code: string): string =>
   cyrb53(code).toString(36).padStart(7, "0")
 
-const hashCheckCodes = (items: RawItem[]): Item[] =>
-  items.map(({ checkCode, ...item }) => ({
-    ...item,
-    checkHash: hashCode(checkCode),
-  }))
+const hashCheckCode = ({ checkCode, ...item }: RawItem): Item => ({
+  ...item,
+  checkHash: hashCode(checkCode),
+})
 
 export const initialState = makeState({
   ...testHunt,
-  items: hashCheckCodes(testHunt.items),
+  items: testHunt.items.map(hashCheckCode),
 })
 
 export const validCode = (item: Item, code: string): boolean =>
