@@ -1,7 +1,6 @@
-import { Button } from "@mantine/core"
+import { Button, SimpleGrid, Stack } from "@mantine/core"
 import { Outlet } from "react-router"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import styles from "./Hunt.module.css"
 import { huntSlice } from "./huntSlice"
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
@@ -12,8 +11,10 @@ export const Hunt = () => {
   const listItems = itemIds.map(id => <Hunt.Item id={id} key={id} />)
 
   return (
-    <>
-      <ol className={styles.itemsList}>{listItems}</ol>
+    <Stack align="center">
+      <SimpleGrid cols={4} spacing={0} verticalSpacing={0}>
+        {listItems}
+      </SimpleGrid>
       <Button
         onClick={() => dispatch(huntSlice.actions.startOver())}
         color="red"
@@ -21,7 +22,7 @@ export const Hunt = () => {
         Reset
       </Button>
       <Outlet />
-    </>
+    </Stack>
   )
 }
 Hunt.Item = Item
