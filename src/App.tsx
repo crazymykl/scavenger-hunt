@@ -1,7 +1,7 @@
-import "./App.css"
 import { Navigate, Route, Routes, useParams } from "react-router"
 import { Hunt } from "./features/hunt/Hunt"
 import { ThemeToggle } from "./features/theme/ThemeToggle"
+import { AppShell, Center, Group } from "@mantine/core"
 
 const ItemDetailsHelper = ({
   transitionDuration,
@@ -23,11 +23,15 @@ const App = ({
   transitionDuration = 1000,
 }: {
   transitionDuration?: number
-}) => {
-  return (
-    <div className="App">
-      <header className="App-header">
+}) => (
+  <AppShell header={{ height: 48 }}>
+    <AppShell.Header>
+      <Group h="100%" px="md" justify="flex-end">
         <ThemeToggle />
+      </Group>
+    </AppShell.Header>
+    <AppShell.Main>
+      <Center>
         <Routes>
           <Route path="/" element={<Hunt />}>
             <Route
@@ -39,9 +43,9 @@ const App = ({
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </header>
-    </div>
-  )
-}
+      </Center>
+    </AppShell.Main>
+  </AppShell>
+)
 
 export default App

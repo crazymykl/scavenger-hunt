@@ -19,10 +19,10 @@ export const Item = ({ id }: { id: string }) => {
       : [item.foundImage, item.foundText]
 
   return (
-    <li>
+    <>
       <Link to={`/find/${item.id}`}>
         <Image src={imageSrc} alt={imageAlt} />
       </Link>
-    </li>
+    </>
   )
 }
