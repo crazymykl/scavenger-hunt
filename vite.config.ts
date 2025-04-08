@@ -1,10 +1,10 @@
 import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitest/config"
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
 import react from "@vitejs/plugin-react"
 import { codecovVitePlugin } from "@codecov/vite-plugin"
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,6 +16,9 @@ export default defineConfig({
       uploadToken: process.env.CODECOV_TOKEN,
     }),
   ],
+  optimizeDeps: {
+    exclude: ["@undecaf/zbar-wasm"],
+  },
   build: {
     rollupOptions: {
       input: {
