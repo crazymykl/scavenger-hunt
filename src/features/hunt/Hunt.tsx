@@ -1,5 +1,5 @@
 import { Button, SimpleGrid, Stack } from "@mantine/core"
-import { Outlet } from "react-router"
+import { Link, Outlet } from "react-router"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { huntSlice } from "./huntSlice"
 import { Item } from "./Item"
@@ -21,6 +21,9 @@ export const Hunt = () => {
       >
         Reset
       </Button>
+      <Link to="/scan">
+        <Button>Scan</Button>
+      </Link>
       <Outlet />
     </Stack>
   )

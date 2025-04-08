@@ -11,7 +11,8 @@ const Item = ({ id }: { id: string }) => {
 
   const code = testHunt.items.find(i => i.id === item?.id)?.checkCode
   const url = new URL(
-    `${window.location}/../find/${item?.id}/${code}`,
+    `/find/${item?.id}/${code}`,
+    window.location.href,
   ).toString()
 
   return (

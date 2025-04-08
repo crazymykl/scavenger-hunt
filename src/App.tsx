@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes, useParams } from "react-router"
 import { Hunt } from "./features/hunt/Hunt"
 import { ThemeToggle } from "./features/theme/ThemeToggle"
+import { ScanControl } from "./features/scan/ScanControl"
 import { AppShell, Center, Group } from "@mantine/core"
 
 const ItemDetailsHelper = ({
@@ -40,6 +41,7 @@ const App = ({
                 <ItemDetailsHelper transitionDuration={transitionDuration} />
               }
             />
+            <Route path="/scan" element=<ScanControl /> />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
