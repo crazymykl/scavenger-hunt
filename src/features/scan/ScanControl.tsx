@@ -5,20 +5,22 @@ import { BarcodeScanner } from "react-barcode-scanner"
 import "react-barcode-scanner/polyfill"
 import { useNavigate } from "react-router"
 
-export const ScanControl = () => {
+export const handleCodes = (
+  codes: DetectedBarcode[],
+  callback: (path: string) => void,
+): void => {
+  const path = codes
+    .map(({ rawValue }) => URL.parse(rawValue))
+    .find(url => url?.origin === window.location.origin)?.pathname
+
+  if (path) callback(path)
+}
+
+export const ScanControl = ({ onCapture = handleCodes }) => {
   const navigate = useNavigate()
   const checkCode = useCallback(
-    (codes: DetectedBarcode[]): void => {
-      for (const { rawValue } of codes) {
-        const url = URL.parse(rawValue)
-
-        if (url?.origin === window.location.origin) {
-          navigate(url.pathname)
-          return
-        }
-      }
-    },
-    [navigate],
+    (codes: DetectedBarcode[]) => onCapture(codes, navigate),
+    [onCapture, navigate],
   )
 
   return (
