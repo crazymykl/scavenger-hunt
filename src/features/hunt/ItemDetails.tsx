@@ -58,7 +58,7 @@ export const ItemDetails = ({
     <Modal
       opened={true}
       onClose={() => navigate("/")}
-      size={"auto"}
+      size="auto"
       title={item.name}
       centered
     >
