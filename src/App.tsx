@@ -1,8 +1,9 @@
-import { Navigate, Route, Routes, useParams } from "react-router"
+import { Link, Navigate, Route, Routes, useParams } from "react-router"
 import { Hunt } from "./features/hunt/Hunt"
-import { ThemeToggle } from "./features/theme/ThemeToggle"
 import { ScanControl } from "./features/scan/ScanControl"
-import { AppShell, Center, Group } from "@mantine/core"
+import { AppShell, Button, Center, Group } from "@mantine/core"
+import { OptionsMenu } from "./features/OptionsMenu"
+import { ResetControl } from "./features/hunt/ResetControl"
 
 const ItemDetailsHelper = ({
   transitionDuration,
@@ -28,10 +29,13 @@ const App = ({
   <AppShell header={{ height: 48 }}>
     <AppShell.Header>
       <Group h="100%" px="md" justify="flex-end">
-        <ThemeToggle />
+        <Link to="/scan">
+          <Button>Scan</Button>
+        </Link>
+        <OptionsMenu />
       </Group>
     </AppShell.Header>
-    <AppShell.Main>
+    <AppShell.Main mt={Hunt.CELL_SPACING}>
       <Center>
         <Routes>
           <Route path="/" element={<Hunt />}>
@@ -42,6 +46,7 @@ const App = ({
               }
             />
             <Route path="/scan" element=<ScanControl /> />
+            <Route path="/reset" element=<ResetControl /> />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

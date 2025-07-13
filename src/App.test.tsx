@@ -33,9 +33,11 @@ test("Theme toggle should work", async () => {
   const { user } = renderWithProviders(<App />)
 
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
-  await user.click(screen.getByText("Toggle"))
+  await user.click(screen.getByTestId("options-menu"))
+  await user.click(await waitFor(() => screen.getByText("Toggle")))
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("dark")
-  await user.click(screen.getByText("Toggle"))
+  await user.click(screen.getByTestId("options-menu"))
+  await user.click(await waitFor(() => screen.getByText("Toggle")))
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
 })
 
@@ -87,7 +89,7 @@ test("Fires callback when a valid QR code is scanned", () => {
   expect(callback.mock.calls[0].arguments[0]).toEqual("/foo")
 })
 
-test("Doesn't fire callbck when an invalid QR code is scanned", () => {
+test("Doesn't fire callback when an invalid QR code is scanned", () => {
   const callback = mock.fn()
   handleCodes([qr_code("/foo")], callback)
 
@@ -102,8 +104,10 @@ test("Starting over should work as expected", async () => {
   await waitFor(() =>
     expect(screen.getByAltText("found one")).toBeInTheDocument(),
   )
-  await user.keyboard("[Escape]")
 
-  await user.click(screen.getByText("Reset"))
+  await user.click(screen.getByTestId("options-menu"))
+  await user.click(await waitFor(() => screen.getByText("Start Over")))
+  await user.click(await waitFor(() => screen.getByText("Reset")))
+
   expect(screen.getByAltText("find one")).toBeInTheDocument()
 })
