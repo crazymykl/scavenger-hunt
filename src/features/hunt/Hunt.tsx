@@ -1,32 +1,29 @@
-import { Button, SimpleGrid, Stack } from "@mantine/core"
-import { Link, Outlet } from "react-router"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { SimpleGrid, Stack } from "@mantine/core"
+import { Outlet } from "react-router"
+import { useAppSelector } from "../../app/hooks"
 import { huntSlice } from "./huntSlice"
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
 
+const CELL_SPACING = 5
+
 export const Hunt = () => {
-  const dispatch = useAppDispatch()
   const itemIds = useAppSelector(huntSlice.selectors.selectItemIds)
   const listItems = itemIds.map(id => <Hunt.Item id={id} key={id} />)
 
   return (
     <Stack align="center">
-      <SimpleGrid cols={4} spacing={0} verticalSpacing={0}>
+      <SimpleGrid
+        cols={4}
+        spacing={CELL_SPACING}
+        verticalSpacing={CELL_SPACING}
+      >
         {listItems}
       </SimpleGrid>
-      <Button
-        onClick={() => dispatch(huntSlice.actions.startOver())}
-        color="red"
-      >
-        Reset
-      </Button>
-      <Link to="/scan">
-        <Button>Scan</Button>
-      </Link>
       <Outlet />
     </Stack>
   )
 }
 Hunt.Item = Item
 Hunt.ItemDetails = ItemDetails
+Hunt.CELL_SPACING = CELL_SPACING

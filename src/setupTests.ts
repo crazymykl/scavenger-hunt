@@ -5,6 +5,7 @@ import { vi } from "vitest"
 const { getComputedStyle } = window
 window.getComputedStyle = elt => getComputedStyle(elt)
 window.HTMLElement.prototype.scrollIntoView = () => {}
+window.HTMLMediaElement.prototype.pause = () => {}
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
