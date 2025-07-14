@@ -34,10 +34,10 @@ test("Theme toggle should work", async () => {
 
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
   await user.click(screen.getByTestId("options-menu"))
-  await user.click(await waitFor(() => screen.getByText("Toggle")))
+  await user.click(await waitFor(() => screen.getByText("Toggle Theme")))
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("dark")
   await user.click(screen.getByTestId("options-menu"))
-  await user.click(await waitFor(() => screen.getByText("Toggle")))
+  await user.click(await waitFor(() => screen.getByText("Toggle Theme")))
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
 })
 

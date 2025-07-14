@@ -33,9 +33,9 @@ export const AdminHunt = () => {
   const listItems = itemIds.map(id => <AdminHunt.Item id={id} key={id} />)
 
   return (
-    <>
-      <SimpleGrid cols={4}>{listItems}</SimpleGrid>
-    </>
+    <SimpleGrid mt={12} cols={4}>
+      {listItems}
+    </SimpleGrid>
   )
 }
 
