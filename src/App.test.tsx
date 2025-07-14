@@ -1,30 +1,21 @@
-import { screen, waitFor } from "@testing-library/react"
+import { fireEvent, screen, waitFor } from "@testing-library/react"
 import App from "./App"
-import { renderWithProviders } from "./utils/test-utils"
+import { qrCode, renderWithProviders } from "./utils/test-utils"
 import { handleCodes } from "./features/scan/ScanControl"
 import { mock } from "node:test"
 
 beforeEach(() => window.localStorage.clear())
 
-const qr_code = (rawValue: string) => ({
-  rawValue,
-  format: "qr_code",
-  cornerPoints: [],
-  boundingBox: {
-    bottom: 0,
-    left: 0,
-    top: 0,
-    right: 0,
-    height: 0,
-    width: 0,
-    x: 0,
-    y: 0,
-    toJSON: () => {},
-  },
-})
-
 test("App should have correct initial render", () => {
   renderWithProviders(<App />)
+
+  expect(screen.getByAltText("find one")).toBeInTheDocument()
+})
+
+test("App should handle resize", () => {
+  renderWithProviders(<App />)
+
+  fireEvent(window, new Event("resize"))
 
   expect(screen.getByAltText("find one")).toBeInTheDocument()
 })
@@ -83,7 +74,7 @@ test("Opens camera control modal", async () => {
 
 test("Fires callback when a valid QR code is scanned", () => {
   const callback = mock.fn()
-  handleCodes([qr_code(`${window.location.origin}/foo`)], callback)
+  handleCodes([qrCode(`${window.location.origin}/foo`)], callback)
 
   expect(callback.mock.callCount()).toEqual(1)
   expect(callback.mock.calls[0].arguments[0]).toEqual("/foo")
@@ -91,7 +82,7 @@ test("Fires callback when a valid QR code is scanned", () => {
 
 test("Doesn't fire callback when an invalid QR code is scanned", () => {
   const callback = mock.fn()
-  handleCodes([qr_code("/foo")], callback)
+  handleCodes([qrCode("/foo")], callback)
 
   expect(callback.mock.callCount()).toEqual(0)
 })
