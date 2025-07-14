@@ -1,22 +1,12 @@
-import {
-  useMantineColorScheme,
-  useComputedColorScheme,
-  Button,
-} from "@mantine/core"
+import { useMantineColorScheme, ActionIcon } from "@mantine/core"
+import { IconMoon, IconSun } from "@tabler/icons-react"
 
 export const ThemeToggle = () => {
-  const { setColorScheme } = useMantineColorScheme()
-  const computedColorScheme = useComputedColorScheme("light", {
-    getInitialValueInEffect: true,
-  })
+  const { toggleColorScheme, colorScheme } = useMantineColorScheme()
 
   return (
-    <Button
-      onClick={() =>
-        setColorScheme(computedColorScheme === "light" ? "dark" : "light")
-      }
-    >
-      Toggle
-    </Button>
+    <ActionIcon variant="default" onClick={toggleColorScheme}>
+      {colorScheme === "light" ? <IconSun size={14} /> : <IconMoon size={14} />}
+    </ActionIcon>
   )
 }
