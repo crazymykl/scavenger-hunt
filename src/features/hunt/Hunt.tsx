@@ -5,9 +5,8 @@ import { huntSlice } from "./huntSlice"
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
 
-const CELL_SPACING = 5
-
 export const Hunt = () => {
+  const CELL_SPACING = 2
   const { height, width } = useWindowDimensions()
   const itemIds = useAppSelector(huntSlice.selectors.selectItemIds)
   const listItems = itemIds.map(id => <Hunt.Item id={id} key={id} />)
@@ -18,6 +17,7 @@ export const Hunt = () => {
         cols={width > height ? 6 : 3}
         spacing={CELL_SPACING}
         verticalSpacing={CELL_SPACING}
+        mt={CELL_SPACING}
       >
         {listItems}
       </SimpleGrid>
@@ -27,4 +27,3 @@ export const Hunt = () => {
 }
 Hunt.Item = Item
 Hunt.ItemDetails = ItemDetails
-Hunt.CELL_SPACING = CELL_SPACING

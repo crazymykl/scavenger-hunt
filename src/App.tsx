@@ -35,7 +35,7 @@ const App = ({
         <OptionsMenu />
       </Group>
     </AppShell.Header>
-    <AppShell.Main mt={Hunt.CELL_SPACING}>
+    <AppShell.Main>
       <Center>
         <Routes>
           <Route path="/" element={<Hunt />}>
