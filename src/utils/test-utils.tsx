@@ -73,3 +73,20 @@ export const renderWithProviders = (
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   }
 }
+
+export const qrCode = (rawValue: string) => ({
+  rawValue,
+  format: "qr_code",
+  cornerPoints: [],
+  boundingBox: {
+    bottom: 0,
+    left: 0,
+    top: 0,
+    right: 0,
+    height: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+    toJSON: () => {},
+  },
+})
