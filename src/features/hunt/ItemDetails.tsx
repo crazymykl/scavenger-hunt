@@ -10,6 +10,7 @@ import {
   Center,
   Progress,
   Stack,
+  Paper,
 } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import type { Item } from "./huntSlice"
@@ -50,7 +51,9 @@ export const ItemDetails = ({
     ) : (
       <Group>
         <Image src={item.foundImage} w={250} />
-        <Text>{item.foundText}</Text>
+        <Paper w={250}>
+          <Text>{item.foundText}</Text>
+        </Paper>
       </Group>
     )
 
@@ -111,7 +114,9 @@ const UnfoundItemDetailsBody = ({
     <>
       <Group mb="1rem">
         <Image src={item.searchImage} w={250} />
-        <Text>{item.searchText}</Text>
+        <Paper w={250}>
+          <Text>{item.searchText}</Text>
+        </Paper>
       </Group>
       <Center>
         <Stack>
