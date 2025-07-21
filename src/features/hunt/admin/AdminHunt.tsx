@@ -1,17 +1,10 @@
 import { Card, Center, SimpleGrid, Stack } from "@mantine/core"
 import { QRCodeSVG } from "qrcode.react"
-import { useAppSelector } from "../../../app/hooks"
-import { huntSlice } from "../huntSlice"
-import testHunt from "../testHunt.json"
+import type { Hunt, RawItem } from "../../../services/api"
 
-const Item = ({ id }: { id: string }) => {
-  const item = useAppSelector(state =>
-    huntSlice.selectors.selectItemById(state, id),
-  )
-
-  const code = testHunt.items.find(i => i.id === item?.id)?.checkCode
+const Item = ({ item }: { item: RawItem }) => {
   const url = new URL(
-    `/find/${item?.id}/${code}`,
+    `/find/${item.id}/${item.checkCode}`,
     window.location.href,
   ).toString()
 
@@ -19,18 +12,19 @@ const Item = ({ id }: { id: string }) => {
     <Card withBorder>
       <Center>
         <Stack>
-          <Center>{item?.name}</Center>
+          <Center>{item.name}</Center>
           <QRCodeSVG value={url} />
-          <Center>{code}</Center>
+          <Center>{item.checkCode}</Center>
         </Stack>
       </Center>
     </Card>
   )
 }
 
-export const AdminHunt = () => {
-  const itemIds = useAppSelector(huntSlice.selectors.selectItemIds)
-  const listItems = itemIds.map(id => <AdminHunt.Item id={id} key={id} />)
+export const AdminHunt = ({ hunt }: { hunt: Hunt }) => {
+  const listItems = hunt?.items.map(item => (
+    <AdminHunt.Item item={{ checkCode: "", ...item }} key={item.id} />
+  ))
 
   return (
     <SimpleGrid mt={12} cols={4}>

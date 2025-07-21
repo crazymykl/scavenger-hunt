@@ -2,16 +2,12 @@ import { Link } from "react-router"
 import { Image } from "@mantine/core"
 import { useAppSelector } from "../../app/hooks"
 import { huntSlice } from "./huntSlice"
+import type { Item as ItemData } from "../../services/api"
 
-export const Item = ({ id }: { id: string }) => {
-  const item = useAppSelector(state =>
-    huntSlice.selectors.selectItemById(state, id),
-  )
+export const Item = ({ item }: { item: ItemData }) => {
   const progress = useAppSelector(state =>
-    huntSlice.selectors.selectProgressById(state, id),
+    huntSlice.selectors.selectProgressById(state, item.id),
   )
-
-  if (!item) return <div data-testid="missingItem" />
 
   const [imageSrc, imageAlt] =
     progress === "unfound"
