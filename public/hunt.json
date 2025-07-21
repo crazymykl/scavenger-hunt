@@ -1,0 +1,23 @@
+{
+  "name": "test hunt",
+  "items": [
+    {
+      "id": "1",
+      "name": "first",
+      "searchText": "find one",
+      "searchImage": "https://placehold.co/200/goldenrod/white",
+      "foundText": "found one",
+      "foundImage": "https://placehold.co/200/green/white",
+      "checkCode": "111111"
+    },
+    {
+      "id": "2",
+      "name": "second",
+      "searchText": "find two",
+      "searchImage": "https://placehold.co/200/goldenrod/white",
+      "foundText": "found two",
+      "foundImage": "https://placehold.co/200/green/white",
+      "checkCode": "111112"
+    }
+  ]
+}

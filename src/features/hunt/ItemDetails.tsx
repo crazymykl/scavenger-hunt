@@ -1,5 +1,5 @@
 import { createRef, useEffect, useState } from "react"
-import { Navigate, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import {
   FocusTrap,
   Group,
@@ -13,9 +13,9 @@ import {
   Paper,
 } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import type { Item } from "./huntSlice"
-import { huntSlice, validCode } from "./huntSlice"
+import { huntSlice } from "./huntSlice"
 import styles from "./ItemDetails.module.css"
+import { type Item, validCode } from "../../services/api"
 
 type CodeInputState =
   | { state: "ready" }
@@ -23,23 +23,18 @@ type CodeInputState =
   | { state: "error" }
 
 export const ItemDetails = ({
-  id,
+  item,
   code,
   transitionDuration = 750,
 }: {
-  id: string
+  item: Item
   code?: string
   transitionDuration?: number
 }) => {
   const navigate = useNavigate()
-  const item = useAppSelector(state =>
-    huntSlice.selectors.selectItemById(state, id),
-  )
   const progress = useAppSelector(state =>
-    huntSlice.selectors.selectProgressById(state, id),
+    huntSlice.selectors.selectProgressById(state, item.id),
   )
-
-  if (!item) return <Navigate to="/" replace />
 
   const modalBody =
     progress === "unfound" ? (
