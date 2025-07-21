@@ -4,10 +4,13 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 import { rememberReducer, rememberEnhancer } from "redux-remember"
 import { rememberSlice } from "../features/remember/rememberSlice"
 import { huntSlice } from "../features/hunt/huntSlice"
+import { api } from "../services/api"
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = rememberReducer(combineSlices(rememberSlice, huntSlice))
+const rootReducer = rememberReducer(
+  combineSlices(rememberSlice, huntSlice, api),
+)
 
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>
@@ -19,6 +22,8 @@ const rememberedKeys = [huntSlice.name]
 export const makeStore = (preloadedState?: Partial<RootState>) => {
   const store = configureStore({
     reducer: rootReducer,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(api.middleware),
     enhancers: getDefaultEnhancers =>
       getDefaultEnhancers().concat(
         rememberEnhancer(window.localStorage, rememberedKeys),

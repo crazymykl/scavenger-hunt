@@ -1,20 +1,27 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
 import App from "./App"
-import { qrCode, renderWithProviders } from "./utils/test-utils"
+import { loadingDone, qrCode, renderWithProviders } from "./utils/test-utils"
 import { handleCodes } from "./features/scan/ScanControl"
 import { mock } from "node:test"
+import { useLocation } from "react-router"
 
 beforeEach(() => window.localStorage.clear())
 
-test("App should have correct initial render", () => {
+test("App should have correct initial render", async () => {
   renderWithProviders(<App />)
+  await loadingDone()
 
   expect(screen.getByAltText("find one")).toBeInTheDocument()
 })
 
-test("App should handle resize", () => {
+test("App should handle resize", async () => {
   renderWithProviders(<App />)
+  await loadingDone()
 
+  // flip the aspect ratio
+  const [w, h] = [window.innerWidth, window.innerHeight]
+  window.innerWidth = h
+  window.innerHeight = w
   fireEvent(window, new Event("resize"))
 
   expect(screen.getByAltText("find one")).toBeInTheDocument()
@@ -32,20 +39,35 @@ test("Theme toggle should work", async () => {
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
 })
 
-test("Viewing unfound details", () => {
+test("Viewing unfound details", async () => {
   renderWithProviders(<App />, { route: "/find/1" })
+  await loadingDone()
 
   expect(screen.getByText("find one")).toBeInTheDocument()
 })
 
-test("Viewing details of an invalid id redirects to the root", () => {
-  renderWithProviders(<App />, { route: "/find/foo" })
+test("Viewing details of an invalid id redirects to the root", async () => {
+  const LocationSpy = () => {
+    const location = useLocation()
 
-  expect(document.location.pathname).toEqual("/")
+    return (
+      <span data-url={location.pathname} data-testid="url">
+        <App />
+      </span>
+    )
+  }
+
+  renderWithProviders(<LocationSpy />, { route: "/find/foo" })
+
+  await waitFor(() =>
+    expect(screen.getByTestId("url").dataset.url).toEqual("/"),
+  )
 })
 
 test("Finding an item should work as expected", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />)
+  await loadingDone()
+
   await user.click(screen.getByAltText("find one"))
   await user.keyboard("111111")
 
@@ -56,6 +78,8 @@ test("Finding an item should work as expected", async () => {
 
 test("Wrong code blocks finding", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />)
+  await loadingDone()
+
   await user.click(screen.getByAltText("find one"))
   const [pinInput] = screen.getAllByLabelText("PinInput")
   await user.keyboard("111112")

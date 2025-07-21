@@ -1,40 +1,50 @@
 import { screen } from "@testing-library/react"
-import { renderWithProviders } from "../../utils/test-utils"
+import { hunt, renderWithProviders } from "../../utils/test-utils"
 import { Hunt } from "./Hunt"
 import { huntSlice } from "./huntSlice"
 import { act } from "react"
 
-test("Renders item yet to be found", async () => {
-  renderWithProviders(<Hunt.Item id="1" />)
-
-  expect(screen.queryByAltText("find one")).toBeInTheDocument()
-})
-
-test("Renders item already found", () => {
-  renderWithProviders(<Hunt.Item id="1" />, {
+test("Renders item yet to be found", () => {
+  renderWithProviders(<Hunt.Item item={hunt.items[0]} />, {
     preloadedState: {
       hunt: {
-        ...huntSlice.getInitialState(),
-        progress: { "1": { found: "1" } },
+        goals: ["1", "2"],
+        progress: {
+          "1": "unfound",
+        },
       },
     },
   })
 
-  expect(screen.queryByAltText("found one")).toBeInTheDocument()
+  expect(screen.getByAltText("find one")).toBeInTheDocument()
+})
+
+test("Renders item already found", () => {
+  renderWithProviders(<Hunt.Item item={hunt.items[0]} />, {
+    preloadedState: {
+      hunt: {
+        progress: { "1": { found: "1" } },
+        goals: ["1", "2"],
+      },
+    },
+  })
+
+  expect(screen.getByAltText("found one")).toBeInTheDocument()
 })
 
 test("Renders item unfound after reset", () => {
   act(() => {
-    const { store } = renderWithProviders(<Hunt.Item id="1" />)
+    const { store } = renderWithProviders(<Hunt.Item item={hunt.items[0]} />, {
+      preloadedState: {
+        hunt: {
+          progress: {},
+          goals: ["1", "2"],
+        },
+      },
+    })
     store.dispatch(huntSlice.actions.markItemFound({ id: "1", code: "1" }))
     store.dispatch(huntSlice.actions.startOver())
   })
 
-  expect(screen.queryByAltText("find one")).toBeInTheDocument()
-})
-
-test("Invalid Item renders missingItem", async () => {
-  renderWithProviders(<Hunt.Item id="foo" />)
-
-  expect(screen.queryByTestId("missingItem")).toBeInTheDocument()
+  expect(screen.getByAltText("find one")).toBeInTheDocument()
 })

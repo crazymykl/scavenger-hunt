@@ -5,7 +5,11 @@ export const ThemeToggle = () => {
   const { toggleColorScheme, colorScheme } = useMantineColorScheme()
 
   return (
-    <ActionIcon variant="default" onClick={toggleColorScheme}>
+    <ActionIcon
+      variant="default"
+      onClick={toggleColorScheme}
+      title="Toggle theme"
+    >
       {colorScheme === "light" ? <IconSun size={14} /> : <IconMoon size={14} />}
     </ActionIcon>
   )

@@ -1,12 +1,14 @@
 import type { RenderOptions } from "@testing-library/react"
-import { render } from "@testing-library/react"
+import { render, waitFor, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import type { PropsWithChildren, ReactElement } from "react"
+import { type PropsWithChildren, type ReactElement } from "react"
 import { Provider } from "react-redux"
 import type { AppStore, RootState } from "../app/store"
 import { makeStore } from "../app/store"
+import testHunt from "../features/hunt/testHunt.json"
 import { MemoryRouter } from "react-router"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
+import { hashCheckHunt } from "../services/api"
 
 /**
  * This type extends the default options for
@@ -57,14 +59,16 @@ export const renderWithProviders = (
     ...renderOptions
   } = extendedRenderOptions
 
-  const Wrapper = ({ children }: PropsWithChildren) => (
-    <Provider store={store}>
-      <ColorSchemeScript defaultColorScheme="auto" />
-      <MantineProvider defaultColorScheme="auto">
-        <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
-      </MantineProvider>
-    </Provider>
-  )
+  const Wrapper = ({ children }: PropsWithChildren) => {
+    return (
+      <Provider store={store}>
+        <ColorSchemeScript defaultColorScheme="auto" />
+        <MantineProvider defaultColorScheme="auto">
+          <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+        </MantineProvider>
+      </Provider>
+    )
+  }
 
   // Return an object with the store and all of RTL's query functions
   return {
@@ -90,3 +94,10 @@ export const qrCode = (rawValue: string) => ({
     toJSON: () => {},
   },
 })
+
+export const hunt = hashCheckHunt(testHunt)
+
+export const loadingDone = () =>
+  waitFor(() =>
+    expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument(),
+  )

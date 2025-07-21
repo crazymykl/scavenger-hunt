@@ -1,15 +1,16 @@
 import { SimpleGrid, Stack } from "@mantine/core"
 import { Outlet } from "react-router"
-import { useAppSelector, useWindowDimensions } from "../../app/hooks"
-import { huntSlice } from "./huntSlice"
+import { useWindowDimensions } from "../../app/hooks"
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
+import type { Hunt as HuntData } from "../../services/api"
 
-export const Hunt = () => {
+export const Hunt = ({ hunt }: { hunt: HuntData }) => {
   const CELL_SPACING = 2
   const { height, width } = useWindowDimensions()
-  const itemIds = useAppSelector(huntSlice.selectors.selectItemIds)
-  const listItems = itemIds.map(id => <Hunt.Item id={id} key={id} />)
+  const listItems = hunt.items.map(item => (
+    <Hunt.Item item={item} key={item.id} />
+  ))
 
   return (
     <Stack align="center">

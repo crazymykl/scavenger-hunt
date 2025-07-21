@@ -1,12 +1,13 @@
 import type { AppStore } from "../../app/store"
 import { makeStore } from "../../app/store"
+import { hunt } from "../../utils/test-utils"
 import { huntSlice, initialState } from "./huntSlice"
 
 type LocalTestContext = {
   store: AppStore
 }
 
-describe<LocalTestContext>("counter reducer", it => {
+describe<LocalTestContext>("progress tracking", it => {
   beforeEach<LocalTestContext>(context => {
     context.store = makeStore()
   })
@@ -18,6 +19,8 @@ describe<LocalTestContext>("counter reducer", it => {
   })
 
   it("should handle finding an item", ({ store }) => {
+    store.dispatch(huntSlice.actions.setGoals(hunt.items.map(i => i.id)))
+
     expect(
       huntSlice.selectors.selectProgressById(store.getState(), "1"),
     ).toEqual("unfound")
