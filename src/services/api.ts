@@ -17,9 +17,16 @@ export type RawItem = BaseItem & {
 }
 
 export type Item = BaseItem & {
-  checkCode?: string // FIXME: make this admin-only
+  checkCode?: never
   checkHash: string
 }
+
+export type RawHunt = {
+  name: string
+  items: RawItem[]
+}
+
+export type Shadow = { [k: string]: string }
 
 export type Hunt = {
   name: string
@@ -35,25 +42,51 @@ const hashCode = (code: string): string =>
 const hashCheckCode = ({ checkCode, ...item }: RawItem): Item => ({
   ...item,
   checkHash: hashCode(checkCode),
-  checkCode,
 })
 
-export const hashCheckHunt = ({
-  name,
-  items,
-}: {
-  name: string
-  items: RawItem[]
-}) => ({
+export const hashCheckHunt = ({ name, items }: RawHunt): Hunt => ({
   name,
   items: items.map(hashCheckCode),
 })
 
-export const baseQuery = fetchBaseQuery(
+export const bakeRawHunt = (
+  raw: RawHunt,
+): {
+  hunt: Hunt
+  shadow: Shadow
+} => ({
+  hunt: hashCheckHunt(raw),
+  shadow: raw.items.reduce(
+    (acc, item) => ({
+      ...acc,
+      [item.id]: item.checkCode,
+    }),
+    {},
+  ),
+})
+
+const { hunt, shadow } = bakeRawHunt(testHunt)
+
+const getUrl = (ri: RequestInfo): URL =>
+  new URL(typeof ri === "string" ? ri : ri.url)
+
+const baseQuery = fetchBaseQuery(
   process.env.NODE_ENV === "test"
     ? {
         baseUrl: "http://bogus.host/",
-        fetchFn: async (_info, _init) => new Response(JSON.stringify(testHunt)),
+        fetchFn: async (info, _init) => {
+          const { pathname } = getUrl(info)
+
+          switch (pathname) {
+            case "/hunt.json":
+              return new Response(JSON.stringify(hunt))
+            case "/hunt.shadow.json":
+              return new Response(JSON.stringify(shadow))
+            default: /* v8 ignore start */
+              return Promise.reject(new Error(`Not found: "${pathname}`))
+            /* v8 ignore stop */
+          }
+        },
       } /* v8 ignore next */
     : { baseUrl: "/" },
 )
@@ -68,9 +101,11 @@ export const api = createApi({
           dispatch(huntSlice.actions.setGoals(data.items.map(({ id }) => id)))
         })
       },
-      transformResponse: hashCheckHunt,
+    }),
+    getShadow: build.query<Shadow, void>({
+      query: () => "hunt.shadow.json",
     }),
   }),
 })
 
-export const { useLazyGetHuntQuery } = api
+export const { useLazyGetHuntQuery, useLazyGetShadowQuery } = api
