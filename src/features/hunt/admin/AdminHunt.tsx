@@ -1,6 +1,6 @@
 import { Card, Center, SimpleGrid, Stack } from "@mantine/core"
 import { QRCodeSVG } from "qrcode.react"
-import type { Hunt, RawItem } from "../../../services/api"
+import type { Hunt, RawItem, Shadow } from "../../../services/api"
 
 const Item = ({ item }: { item: RawItem }) => {
   const url = new URL(
@@ -21,9 +21,12 @@ const Item = ({ item }: { item: RawItem }) => {
   )
 }
 
-export const AdminHunt = ({ hunt }: { hunt: Hunt }) => {
-  const listItems = hunt?.items.map(item => (
-    <AdminHunt.Item item={{ checkCode: "", ...item }} key={item.id} />
+export const AdminHunt = ({ hunt, shadow }: { hunt: Hunt; shadow: Shadow }) => {
+  const listItems = hunt.items.map(item => (
+    <AdminHunt.Item
+      item={{ checkCode: shadow[item.id], ...item }}
+      key={item.id}
+    />
   ))
 
   return (

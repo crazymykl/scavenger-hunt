@@ -8,7 +8,7 @@
       "searchImage": "https://placehold.co/200/goldenrod/white",
       "foundText": "found one",
       "foundImage": "https://placehold.co/200/green/white",
-      "checkCode": "111111"
+      "checkHash": "2evvhhm6fkj"
     },
     {
       "id": "2",
@@ -17,7 +17,7 @@
       "searchImage": "https://placehold.co/200/goldenrod/white",
       "foundText": "found two",
       "foundImage": "https://placehold.co/200/green/white",
-      "checkCode": "111112"
+      "checkHash": "23w2hpn9kbh"
     }
   ]
 }
