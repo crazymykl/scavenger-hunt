@@ -4,7 +4,8 @@ import { ScanControl } from "./features/scan/ScanControl"
 import { AppShell, Button, Center, Group } from "@mantine/core"
 import { OptionsMenu } from "./features/OptionsMenu"
 import { ResetControl } from "./features/hunt/ResetControl"
-import { type Hunt as HuntData, useLazyGetHuntQuery } from "./services/api"
+import { useLazyGetHuntQuery } from "./services/api"
+import { type Hunt as HuntData } from "./features/hunt/lib"
 
 const ItemDetailsHelper = ({
   hunt,

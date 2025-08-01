@@ -1,10 +1,14 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
-import { setupListeners } from "@reduxjs/toolkit/query"
+import { type FetchBaseQueryArgs, setupListeners } from "@reduxjs/toolkit/query"
 import { rememberReducer, rememberEnhancer } from "redux-remember"
 import { rememberSlice } from "../features/remember/rememberSlice"
 import { huntSlice } from "../features/hunt/huntSlice"
 import { api } from "../services/api"
+
+export type ApiExtra = {
+  overrideBaseQueryArgs?: FetchBaseQueryArgs
+}
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -19,11 +23,16 @@ const rememberedKeys = [huntSlice.name]
 
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config
-export const makeStore = (preloadedState?: Partial<RootState>) => {
+export const makeStore = (
+  preloadedState?: Partial<RootState>,
+  extraArgument?: ApiExtra,
+) => {
   const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat(api.middleware),
+      getDefaultMiddleware({
+        thunk: { extraArgument },
+      }).concat(api.middleware),
     enhancers: getDefaultEnhancers =>
       getDefaultEnhancers().concat(
         rememberEnhancer(window.localStorage, rememberedKeys),

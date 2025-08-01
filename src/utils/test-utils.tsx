@@ -8,7 +8,8 @@ import { makeStore } from "../app/store"
 import testHunt from "../features/hunt/testHunt.json"
 import { MemoryRouter } from "react-router"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
-import { hashCheckHunt } from "../services/api"
+import { bakeRawHunt } from "../features/hunt/lib"
+import type { FetchBaseQueryArgs } from "@reduxjs/toolkit/query"
 
 /**
  * This type extends the default options for
@@ -54,7 +55,9 @@ export const renderWithProviders = (
   const {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
-    store = makeStore(preloadedState),
+    store = makeStore(preloadedState, {
+      overrideBaseQueryArgs: mockedBaseQueryArgs,
+    }),
     route = "/",
     ...renderOptions
   } = extendedRenderOptions
@@ -95,7 +98,29 @@ export const qrCode = (rawValue: string) => ({
   },
 })
 
-export const hunt = hashCheckHunt(testHunt)
+export const { hunt, shadow } = bakeRawHunt(testHunt)
+
+const getUrl = (ri: RequestInfo): URL =>
+  new URL(typeof ri === "string" ? /* v8 ignore next */ ri : ri.url)
+
+const [huntJson, shadowJson] = [JSON.stringify(hunt), JSON.stringify(shadow)]
+
+const mockedBaseQueryArgs: FetchBaseQueryArgs = {
+  baseUrl: "http://bogus.host/",
+  fetchFn: async (info, _init) => {
+    const { pathname } = getUrl(info)
+
+    switch (pathname) {
+      case "/hunt.json":
+        return new Response(huntJson)
+      case "/hunt.shadow.json":
+        return new Response(shadowJson)
+      default: /* v8 ignore start */
+        throw new Error(`Not found: "${pathname}"`)
+      /* v8 ignore stop */
+    }
+  },
+}
 
 export const loadingDone = () =>
   waitFor(() =>
