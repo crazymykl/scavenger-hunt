@@ -2,7 +2,7 @@ import { Link } from "react-router"
 import { Image } from "@mantine/core"
 import { useAppSelector } from "../../app/hooks"
 import { huntSlice } from "./huntSlice"
-import type { Item as ItemData } from "../../services/api"
+import type { Item as ItemData } from "./lib"
 
 export const Item = ({ item }: { item: ItemData }) => {
   const progress = useAppSelector(state =>

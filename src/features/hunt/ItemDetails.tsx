@@ -15,7 +15,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { huntSlice } from "./huntSlice"
 import styles from "./ItemDetails.module.css"
-import { type Item, validCode } from "../../services/api"
+import { type Item, validCode } from "./lib"
 
 type CodeInputState =
   | { state: "ready" }
