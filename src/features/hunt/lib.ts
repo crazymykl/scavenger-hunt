@@ -20,13 +20,15 @@ export type Item = BaseItem & {
 
 export type RawHunt = {
   name: string
+  rewardTitle: string
+  rewardText: string
+  rewardImage: string
   items: RawItem[]
 }
 
 export type Shadow = { [k: string]: string }
 
-export type Hunt = {
-  name: string
+export type Hunt = Omit<RawHunt, "items"> & {
   items: Item[]
 }
 
@@ -41,8 +43,8 @@ const hashCheckCode = ({ checkCode, ...item }: RawItem): Item => ({
   checkHash: hashCode(checkCode),
 })
 
-const hashCheckHunt = ({ name, items }: RawHunt): Hunt => ({
-  name,
+const hashCheckHunt = ({ items, ...rest }: RawHunt): Hunt => ({
+  ...rest,
   items: items.map(hashCheckCode),
 })
 

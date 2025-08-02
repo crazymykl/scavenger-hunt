@@ -20,9 +20,12 @@ const selectProgress: (hunt: HuntSliceState) => HuntProgress = hunt =>
   hunt.progress
 const selectItemId = (_hunt: HuntSliceState, itemId: string) => itemId
 
+const selectComplete = (hunt: HuntSliceState): boolean =>
+  hunt.goals.every(goal => selectProgressById(hunt, goal) !== "unfound")
+
 const selectProgressById = createSelector(
   [selectProgress, selectItemId],
-  (progress, itemId) => progress[itemId],
+  (progress, itemId) => progress[itemId] ?? "unfound",
 )
 
 const baseGoalProgress = (goals: string[]): HuntProgress =>
@@ -51,5 +54,6 @@ export const huntSlice = createAppSlice({
   }),
   selectors: {
     selectProgressById,
+    selectComplete,
   },
 })
