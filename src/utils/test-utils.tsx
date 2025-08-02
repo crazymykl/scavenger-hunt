@@ -6,7 +6,7 @@ import { Provider } from "react-redux"
 import type { AppStore, RootState } from "../app/store"
 import { makeStore } from "../app/store"
 import testHunt from "../features/hunt/testHunt.json"
-import { MemoryRouter } from "react-router"
+import { MemoryRouter, useLocation } from "react-router"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 import { bakeRawHunt } from "../features/hunt/lib"
 import type { FetchBaseQueryArgs } from "@reduxjs/toolkit/query"
@@ -63,11 +63,19 @@ export const renderWithProviders = (
   } = extendedRenderOptions
 
   const Wrapper = ({ children }: PropsWithChildren) => {
+    const LocationSpy = ({ children }: PropsWithChildren) => (
+      <span data-url={useLocation().pathname} data-testid="url">
+        {children}
+      </span>
+    )
+
     return (
       <Provider store={store}>
         <ColorSchemeScript defaultColorScheme="auto" />
         <MantineProvider defaultColorScheme="auto">
-          <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+          <MemoryRouter initialEntries={[route]}>
+            <LocationSpy>{children}</LocationSpy>
+          </MemoryRouter>
         </MantineProvider>
       </Provider>
     )
@@ -100,7 +108,7 @@ export const qrCode = (rawValue: string) => ({
 
 export const { hunt, shadow } = bakeRawHunt(testHunt)
 
-const getUrl = (ri: RequestInfo): URL =>
+const requestUrl = (ri: RequestInfo): URL =>
   new URL(typeof ri === "string" ? /* v8 ignore next */ ri : ri.url)
 
 const [huntJson, shadowJson] = [JSON.stringify(hunt), JSON.stringify(shadow)]
@@ -108,7 +116,7 @@ const [huntJson, shadowJson] = [JSON.stringify(hunt), JSON.stringify(shadow)]
 const mockedBaseQueryArgs: FetchBaseQueryArgs = {
   baseUrl: "http://bogus.host/",
   fetchFn: async (info, _init) => {
-    const { pathname } = getUrl(info)
+    const { pathname } = requestUrl(info)
 
     switch (pathname) {
       case "/hunt.json":
@@ -126,3 +134,5 @@ export const loadingDone = () =>
   waitFor(() =>
     expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument(),
   )
+
+export const getUrl = () => screen.getByTestId("url").dataset.url

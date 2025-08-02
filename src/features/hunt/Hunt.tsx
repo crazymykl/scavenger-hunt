@@ -4,6 +4,7 @@ import { useWindowDimensions } from "../../app/hooks"
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
 import type { Hunt as HuntData } from "./lib"
+import { Reward } from "./Reward"
 
 export const Hunt = ({ hunt }: { hunt: HuntData }) => {
   const CELL_SPACING = 2
@@ -28,3 +29,4 @@ export const Hunt = ({ hunt }: { hunt: HuntData }) => {
 }
 Hunt.Item = Item
 Hunt.ItemDetails = ItemDetails
+Hunt.Reward = Reward

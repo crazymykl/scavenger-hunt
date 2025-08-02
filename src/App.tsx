@@ -6,6 +6,8 @@ import { OptionsMenu } from "./features/OptionsMenu"
 import { ResetControl } from "./features/hunt/ResetControl"
 import { useLazyGetHuntQuery } from "./services/api"
 import { type Hunt as HuntData } from "./features/hunt/lib"
+import { useAppSelector } from "./app/hooks"
+import { huntSlice } from "./features/hunt/huntSlice"
 
 const ItemDetailsHelper = ({
   hunt,
@@ -35,14 +37,22 @@ const App = ({
 }) => {
   const [trigger, { data: hunt, isLoading, error }] = useLazyGetHuntQuery()
   if (!hunt && !isLoading) trigger(undefined)
+  const done = useAppSelector(huntSlice.selectors.selectComplete) && hunt
+  const actionButton = done ? (
+    <Link to="/reward">
+      <Button color="green">View Reward</Button>
+    </Link>
+  ) : (
+    <Link to="/scan">
+      <Button>Scan</Button>
+    </Link>
+  )
 
   return (
     <AppShell header={{ height: 48 }}>
       <AppShell.Header>
         <Group h="100%" px="md" justify="flex-end">
-          <Link to="/scan">
-            <Button>Scan</Button>
-          </Link>
+          {actionButton}
           <OptionsMenu />
         </Group>
       </AppShell.Header>
@@ -72,6 +82,9 @@ const App = ({
               />
               <Route path="/scan" element=<ScanControl /> />
               <Route path="/reset" element=<ResetControl /> />
+              {done && (
+                <Route path="/reward" element={<Hunt.Reward hunt={hunt} />} />
+              )}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>

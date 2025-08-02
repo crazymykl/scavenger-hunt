@@ -1,9 +1,14 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
 import App from "./App"
-import { loadingDone, qrCode, renderWithProviders } from "./utils/test-utils"
+import {
+  getUrl,
+  hunt,
+  loadingDone,
+  qrCode,
+  renderWithProviders,
+} from "./utils/test-utils"
 import { handleCodes } from "./features/scan/ScanControl"
 import { mock } from "node:test"
-import { useLocation } from "react-router"
 
 beforeEach(() => window.localStorage.clear())
 
@@ -47,21 +52,15 @@ test("Viewing unfound details", async () => {
 })
 
 test("Viewing details of an invalid id redirects to the root", async () => {
-  const LocationSpy = () => {
-    const location = useLocation()
+  renderWithProviders(<App />, { route: "/find/foo" })
 
-    return (
-      <span data-url={location.pathname} data-testid="url">
-        <App />
-      </span>
-    )
-  }
+  await waitFor(() => expect(getUrl()).toEqual("/"))
+})
 
-  renderWithProviders(<LocationSpy />, { route: "/find/foo" })
+test("Invalid route redirects to the root", async () => {
+  renderWithProviders(<App />, { route: "/bluh" })
 
-  await waitFor(() =>
-    expect(screen.getByTestId("url").dataset.url).toEqual("/"),
-  )
+  await waitFor(() => expect(getUrl()).toEqual("/"))
 })
 
 test("Finding an item should work as expected", async () => {
@@ -90,6 +89,7 @@ test("Wrong code blocks finding", async () => {
 
 test("Opens camera control modal", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />)
+  await loadingDone()
 
   await user.click(screen.getByText("Scan"))
 
@@ -125,4 +125,35 @@ test("Starting over should work as expected", async () => {
   await user.click(await waitFor(() => screen.getByText("Reset")))
 
   expect(screen.getByAltText("find one")).toBeInTheDocument()
+})
+
+test("Unearned reward route redirects to the root", async () => {
+  renderWithProviders(<App />, { route: "/reward" })
+
+  await waitFor(() => expect(getUrl()).toEqual("/"))
+})
+
+test("Marking all items founds earns acccess to the reward route", async () => {
+  const { user } = renderWithProviders(<App transitionDuration={50} />, {
+    route: "/find/2/111112",
+  })
+
+  await waitFor(() =>
+    expect(screen.getByAltText("found two")).toBeInTheDocument(),
+  )
+
+  await user.click(screen.getByAltText("find one"))
+  const [pinInput] = screen.getAllByLabelText("PinInput")
+  await user.click(pinInput)
+  await user.keyboard("111111")
+
+  await waitFor(() =>
+    expect(screen.getByAltText("found one")).toBeInTheDocument(),
+  )
+
+  await user.click(screen.getByText("View Reward"))
+
+  await waitFor(() => expect(getUrl()).toEqual("/reward"))
+  expect(screen.getByText(hunt.rewardTitle)).toBeInTheDocument()
+  expect(screen.getByText(hunt.rewardText)).toBeInTheDocument()
 })

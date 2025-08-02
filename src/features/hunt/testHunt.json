@@ -1,5 +1,8 @@
 {
   "name": "test hunt",
+  "rewardTitle": "You found all the items!",
+  "rewardImage": "https://placehold.co/200/blue/white",
+  "rewardText": "Congratulations!",
   "items": [
     {
       "id": "1",
