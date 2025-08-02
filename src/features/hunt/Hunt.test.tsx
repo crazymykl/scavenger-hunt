@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react"
-import { hunt, renderWithProviders } from "../../utils/test-utils"
+import { hunt, loadingDone, renderWithProviders } from "../../utils/test-utils"
 import { Hunt } from "./Hunt"
 import { huntSlice } from "./huntSlice"
 import { act } from "react"
@@ -32,16 +32,18 @@ test("Renders item already found", () => {
   expect(screen.getByAltText("found one")).toBeInTheDocument()
 })
 
-test("Renders item unfound after reset", () => {
-  act(() => {
-    const { store } = renderWithProviders(<Hunt.Item item={hunt.items[0]} />, {
-      preloadedState: {
-        hunt: {
-          progress: {},
-          goals: ["1", "2"],
-        },
+test("Renders item unfound after reset", async () => {
+  const { store } = renderWithProviders(<Hunt.Item item={hunt.items[0]} />, {
+    preloadedState: {
+      hunt: {
+        progress: {},
+        goals: ["1", "2"],
       },
-    })
+    },
+  })
+  await loadingDone()
+
+  await act(async () => {
     store.dispatch(huntSlice.actions.markItemFound({ id: "1", code: "1" }))
     store.dispatch(huntSlice.actions.startOver())
   })
