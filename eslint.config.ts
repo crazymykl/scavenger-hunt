@@ -24,7 +24,7 @@ export default tseslint.config(
     },
   },
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   eslintPluginReact.configs.flat.recommended,
   {
@@ -61,6 +61,33 @@ export default tseslint.config(
       "react/react-in-jsx-scope": "off",
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "import/no-unresolved": "off",
+      "@typescript-eslint/no-floating-promises": [
+        "error",
+        {
+          allowForKnownSafeCalls: [
+            {
+              from: "package",
+              name: "NavigateFunction",
+              package: "react-router",
+            },
+          ],
+        },
+      ],
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        {
+          checksVoidReturn: {
+            arguments: false,
+            attributes: false,
+          },
+        },
+      ],
+      "@typescript-eslint/no-confusing-void-expression": [
+        "error",
+        {
+          ignoreArrowShorthand: true,
+        },
+      ],
     },
   },
 )

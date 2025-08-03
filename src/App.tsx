@@ -37,7 +37,7 @@ const App = ({
   transitionDuration?: number
 }) => {
   const [trigger, { data: hunt, isLoading, error }] = useLazyGetHuntQuery()
-  if (!hunt && !isLoading) trigger(undefined)
+  if (!hunt && !isLoading) void trigger(undefined)
   const done = useAppSelector(huntSlice.selectors.selectComplete)
 
   return (
@@ -57,7 +57,7 @@ const App = ({
                 isLoading ? (
                   "Loading..."
                 ) : error || !hunt ? (
-                  `Error: ${error ?? "General Failure"}`
+                  `Error: ${error ? JSON.stringify(error) : /* v8 ignore next */ "General Failure"}`
                 ) : (
                   <Hunt hunt={hunt} />
                 )

@@ -1,25 +1,28 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import {
+  createApi,
+  type FetchArgs,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react"
 import { huntSlice } from "../features/hunt/huntSlice"
 import type { Shadow, Hunt } from "../features/hunt/lib"
 import type { ApiExtra } from "../app/store"
 
 export const api = createApi({
-  baseQuery: async (arg, api, extraOptions) =>
+  baseQuery: async (arg: string | FetchArgs, api, extraOptions) =>
     fetchBaseQuery(
       api.extra
         ? (api.extra as ApiExtra).overrideBaseQueryArgs /* v8 ignore start */
         : { baseUrl: "/" } /* v8 ignore stop */,
     )(arg, api, extraOptions),
   endpoints: build => ({
-    getHunt: build.query<Hunt, void>({
+    getHunt: build.query<Hunt, undefined>({
       query: () => "hunt.json",
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        queryFulfilled.then(({ data }) => {
-          dispatch(huntSlice.actions.setGoals(data.items.map(({ id }) => id)))
-        })
+        const { data } = await queryFulfilled
+        dispatch(huntSlice.actions.setGoals(data.items.map(({ id }) => id)))
       },
     }),
-    getShadow: build.query<Shadow, void>({
+    getShadow: build.query<Shadow, undefined>({
       query: () => "hunt.shadow.json",
     }),
   }),

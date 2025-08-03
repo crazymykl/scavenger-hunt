@@ -43,7 +43,7 @@ test("Renders item unfound after reset", async () => {
   })
   await loadingDone()
 
-  await act(async () => {
+  act(() => {
     store.dispatch(huntSlice.actions.markItemFound({ id: "1", code: "1" }))
     store.dispatch(huntSlice.actions.startOver())
   })

@@ -120,9 +120,9 @@ const mockedBaseQueryArgs: FetchBaseQueryArgs = {
 
     switch (pathname) {
       case "/hunt.json":
-        return new Response(huntJson)
+        return Promise.resolve(new Response(huntJson))
       case "/hunt.shadow.json":
-        return new Response(shadowJson)
+        return Promise.resolve(new Response(shadowJson))
       default: /* v8 ignore start */
         throw new Error(`Not found: "${pathname}"`)
       /* v8 ignore stop */
