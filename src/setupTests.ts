@@ -4,12 +4,12 @@ import { vi } from "vitest"
 
 const { getComputedStyle } = window
 window.getComputedStyle = elt => getComputedStyle(elt)
-window.HTMLElement.prototype.scrollIntoView = () => {}
-window.HTMLMediaElement.prototype.pause = () => {}
+window.HTMLElement.prototype.scrollIntoView = vi.fn()
+window.HTMLMediaElement.prototype.pause = vi.fn()
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: (query: any) => ({
+  value: (query: unknown) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -22,9 +22,9 @@ Object.defineProperty(window, "matchMedia", {
 })
 
 class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
+  observe: () => void = vi.fn()
+  unobserve: () => void = vi.fn()
+  disconnect: () => void = vi.fn()
 }
 
 window.ResizeObserver = ResizeObserver
