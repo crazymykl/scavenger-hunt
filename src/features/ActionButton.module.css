@@ -1,0 +1,47 @@
+@property --spin-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin {
+  to {
+    --spin-angle: 1turn;
+  }
+}
+
+.glowingAura {
+  position: relative;
+  animation: spin 1.5s linear infinite;
+  filter: hue-rotate(var(--spin-angle));
+
+  button {
+    background-color: transparent;
+    border: 1px solid green;
+    color: yellow;
+  }
+}
+
+.glowingAura::before {
+  position: absolute;
+  inset: -1em;
+  border: solid 1.25em;
+  border-image: conic-gradient(
+      from var(--spin-angle),
+      #669900,
+      #99cc33,
+      #ccee66,
+      #006699,
+      #3399cc,
+      #990066,
+      #cc3399,
+      #ff6600,
+      #ff9900,
+      #ffcc00,
+      #669900
+    )
+    1;
+  filter: blur(0.75em);
+  animation: spin 3s linear infinite;
+  content: "";
+}
