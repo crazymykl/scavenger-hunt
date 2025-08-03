@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest"
 
 import { vi } from "vitest"
 
-const { getComputedStyle } = window
+const { getComputedStyle } = window // eslint-disable-line @typescript-eslint/unbound-method
 window.getComputedStyle = elt => getComputedStyle(elt)
 window.HTMLElement.prototype.scrollIntoView = vi.fn()
 window.HTMLMediaElement.prototype.pause = vi.fn()

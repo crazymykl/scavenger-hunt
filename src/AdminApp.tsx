@@ -5,10 +5,10 @@ import { useLazyGetHuntQuery, useLazyGetShadowQuery } from "./services/api"
 
 const AdminApp = () => {
   const [trigger, { data: hunt, isLoading }] = useLazyGetHuntQuery()
-  if (!hunt && !isLoading) trigger(undefined)
+  if (!hunt && !isLoading) void trigger(undefined)
   const [shadowTrigger, { data: shadow, isLoading: shadowLoading }] =
     useLazyGetShadowQuery()
-  if (!shadow && !shadowLoading) shadowTrigger(undefined)
+  if (!shadow && !shadowLoading) void shadowTrigger(undefined)
 
   return (
     <AppShell header={{ height: 48 }}>
