@@ -16,7 +16,11 @@ export const handleCodes = (
   if (path) callback(path)
 }
 
-export const ScanControl = ({ onCapture = handleCodes }) => {
+export const ScanControl = ({
+  onCapture = handleCodes,
+}: {
+  onCapture?: typeof handleCodes
+}) => {
   const navigate = useNavigate()
   const checkCode = useCallback(
     (codes: DetectedBarcode[]) => onCapture(codes, navigate),

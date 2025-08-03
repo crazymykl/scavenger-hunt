@@ -17,7 +17,7 @@ import type { FetchBaseQueryArgs } from "@reduxjs/toolkit/query"
  * additional configuration such as specifying an initial Redux state and
  * a custom store instance.
  */
-interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
+type ExtendedRenderOptions = {
   /**
    * Defines a specific portion or the entire initial state for the Redux store.
    * This is particularly useful for initializing the state in a
@@ -38,7 +38,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   store?: AppStore
 
   route?: string
-}
+} & Omit<RenderOptions, "queries">
 
 /**
  * Renders the given React element with Redux Provider and custom store.
@@ -102,7 +102,7 @@ export const qrCode = (rawValue: string) => ({
     width: 0,
     x: 0,
     y: 0,
-    toJSON: () => {},
+    toJSON: vi.fn(),
   },
 })
 

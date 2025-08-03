@@ -4,7 +4,7 @@ import { createAppSlice } from "../../app/createAppSlice"
 
 type ItemState = { found: string } | "unfound"
 
-type HuntProgress = { [k: string]: ItemState }
+type HuntProgress = Record<string, ItemState>
 
 type HuntSliceState = {
   progress: HuntProgress

@@ -26,7 +26,7 @@ export type RawHunt = {
   items: RawItem[]
 }
 
-export type Shadow = { [k: string]: string }
+export type Shadow = Record<string, string>
 
 export type Hunt = Omit<RawHunt, "items"> & {
   items: Item[]
