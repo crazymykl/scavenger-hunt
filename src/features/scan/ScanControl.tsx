@@ -1,9 +1,11 @@
-import { Container, Group, Modal } from "@mantine/core"
 import { useCallback } from "react"
-import type { DetectedBarcode } from "react-barcode-scanner"
+import { Container, Group, Modal } from "@mantine/core"
 import { BarcodeScanner } from "react-barcode-scanner"
-import "react-barcode-scanner/polyfill"
 import { useNavigate } from "react-router"
+
+import type { DetectedBarcode } from "react-barcode-scanner"
+
+import "react-barcode-scanner/polyfill"
 
 export const handleCodes = (
   codes: DetectedBarcode[],

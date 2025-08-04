@@ -1,7 +1,9 @@
-import { Link } from "react-router"
 import { Image } from "@mantine/core"
-import { useAppSelector } from "../../app/hooks"
+import { Link } from "react-router"
+
 import { huntSlice } from "./huntSlice"
+import { useAppSelector } from "../../app/hooks"
+
 import type { Item as ItemData } from "./lib"
 
 export const Item = ({ item }: { item: ItemData }) => {

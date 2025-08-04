@@ -1,7 +1,8 @@
+import { Button, Center, Group, Modal } from "@mantine/core"
+import { useNavigate } from "react-router"
+
 import { huntSlice } from "./huntSlice"
 import { useAppDispatch } from "../../app/hooks"
-import { useNavigate } from "react-router"
-import { Button, Center, Group, Modal } from "@mantine/core"
 
 export const ResetControl = () => {
   const dispatch = useAppDispatch()

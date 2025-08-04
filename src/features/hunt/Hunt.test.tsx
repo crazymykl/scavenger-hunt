@@ -1,8 +1,9 @@
+import { act } from "react"
 import { screen } from "@testing-library/react"
-import { hunt, loadingDone, renderWithProviders } from "../../utils/test-utils"
+
 import { Hunt } from "./Hunt"
 import { huntSlice } from "./huntSlice"
-import { act } from "react"
+import { hunt, loadingDone, renderWithProviders } from "../../utils/test-utils"
 
 test("Renders item yet to be found", () => {
   renderWithProviders(<Hunt.Item item={hunt.items[0]} />, {

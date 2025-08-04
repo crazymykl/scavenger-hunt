@@ -1,7 +1,7 @@
-import { Burger, Menu, useMantineColorScheme } from "@mantine/core"
 import { useState } from "react"
-import { useNavigate } from "react-router"
+import { Burger, Menu, useMantineColorScheme } from "@mantine/core"
 import { IconMoon, IconRestore, IconSun } from "@tabler/icons-react"
+import { useNavigate } from "react-router"
 
 export const OptionsMenu = () => {
   const [opened, setOpened] = useState(false)

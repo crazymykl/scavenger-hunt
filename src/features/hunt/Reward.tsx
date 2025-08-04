@@ -1,5 +1,6 @@
-import { Group, Modal, Image, Text, Paper } from "@mantine/core"
+import { Group, Image, Modal, Paper, Text } from "@mantine/core"
 import { useNavigate } from "react-router"
+
 import type { Hunt } from "./lib"
 
 export const Reward = ({ hunt }: { hunt: Hunt }) => {

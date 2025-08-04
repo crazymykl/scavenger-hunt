@@ -1,10 +1,13 @@
-import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
-import { type FetchBaseQueryArgs, setupListeners } from "@reduxjs/toolkit/query"
-import { rememberReducer, rememberEnhancer } from "redux-remember"
-import { rememberSlice } from "../features/remember/rememberSlice"
+import { setupListeners } from "@reduxjs/toolkit/query"
+import { rememberEnhancer, rememberReducer } from "redux-remember"
+
 import { huntSlice } from "../features/hunt/huntSlice"
+import { rememberSlice } from "../features/remember/rememberSlice"
 import { api } from "../services/api"
+
+import type { Action, ThunkAction } from "@reduxjs/toolkit"
+import type { FetchBaseQueryArgs } from "@reduxjs/toolkit/query"
 
 export type ApiExtra = {
   overrideBaseQueryArgs?: FetchBaseQueryArgs

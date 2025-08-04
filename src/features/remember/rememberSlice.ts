@@ -1,5 +1,5 @@
-import { createSlice, createAction } from "@reduxjs/toolkit"
-import { REMEMBER_REHYDRATED, REMEMBER_PERSISTED } from "redux-remember"
+import { createAction, createSlice } from "@reduxjs/toolkit"
+import { REMEMBER_PERSISTED, REMEMBER_REHYDRATED } from "redux-remember"
 
 const initialState = {
   isRehydrated: false,

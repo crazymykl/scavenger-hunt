@@ -1,15 +1,17 @@
-import type { RenderOptions } from "@testing-library/react"
-import { render, waitFor, screen } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
-import { type PropsWithChildren, type ReactElement } from "react"
-import { Provider } from "react-redux"
-import type { AppStore, RootState } from "../app/store"
-import { makeStore } from "../app/store"
-import testHunt from "../features/hunt/testHunt.json"
-import { MemoryRouter, useLocation } from "react-router"
 import { ColorSchemeScript, MantineProvider } from "@mantine/core"
+import { render, screen, waitFor } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { Provider } from "react-redux"
+import { MemoryRouter, useLocation } from "react-router"
+
+import { makeStore } from "../app/store"
 import { bakeRawHunt } from "../features/hunt/lib"
+import testHunt from "../features/hunt/testHunt.json"
+
+import type { PropsWithChildren, ReactElement } from "react"
 import type { FetchBaseQueryArgs } from "@reduxjs/toolkit/query"
+import type { RenderOptions } from "@testing-library/react"
+import type { AppStore, RootState } from "../app/store"
 
 /**
  * This type extends the default options for

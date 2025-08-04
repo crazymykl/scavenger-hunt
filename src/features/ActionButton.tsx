@@ -1,7 +1,8 @@
+import { useState } from "react"
 import { Button } from "@mantine/core"
 import { Link } from "react-router"
+
 import styles from "./ActionButton.module.css"
-import { useState } from "react"
 
 export const ActionButton = ({ done }: { done: boolean }) => {
   const [seen, setSeen] = useState(false)

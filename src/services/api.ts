@@ -1,11 +1,10 @@
-import {
-  createApi,
-  type FetchArgs,
-  fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+
 import { huntSlice } from "../features/hunt/huntSlice"
-import type { Shadow, Hunt } from "../features/hunt/lib"
+
+import type { FetchArgs } from "@reduxjs/toolkit/query/react"
 import type { ApiExtra } from "../app/store"
+import type { Hunt, Shadow } from "../features/hunt/lib"
 
 export const api = createApi({
   baseQuery: async (arg: string | FetchArgs, api, extraOptions) =>

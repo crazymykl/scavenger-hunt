@@ -1,4 +1,5 @@
 import { AppShell, Center, Group } from "@mantine/core"
+
 import { AdminHunt } from "./features/hunt/admin/AdminHunt"
 import { ThemeToggle } from "./features/theme/ThemeToggle"
 import { useLazyGetHuntQuery, useLazyGetShadowQuery } from "./services/api"

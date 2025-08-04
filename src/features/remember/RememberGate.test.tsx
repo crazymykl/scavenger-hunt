@@ -1,6 +1,7 @@
 import { screen, waitFor } from "@testing-library/react"
-import { renderWithProviders } from "../../utils/test-utils"
+
 import { RememberGate } from "./RememberGate"
+import { renderWithProviders } from "../../utils/test-utils"
 
 test("RememberGate should display a loading screen until state is rehydrated", async () => {
   const { store } = renderWithProviders(
