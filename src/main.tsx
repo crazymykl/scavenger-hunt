@@ -1,12 +1,13 @@
 import React from "react"
+import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
+import { BrowserRouter } from "react-router"
+
 import App from "./App"
 import { store } from "./app/store"
 import "./index.css"
 import { RememberGate } from "./features/remember/RememberGate"
-import { BrowserRouter } from "react-router"
-import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 
 const container = document.getElementById("root")
 

@@ -1,8 +1,8 @@
 import eslint from "@eslint/js"
 import importPlugin from "eslint-plugin-import"
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import eslintPluginReact from "eslint-plugin-react"
 import eslintPluginReactHooks from "eslint-plugin-react-hooks"
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import tseslint from "typescript-eslint"
 
 export default tseslint.config(
@@ -86,6 +86,32 @@ export default tseslint.config(
         "error",
         {
           ignoreArrowShorthand: true,
+        },
+      ],
+      "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+      "import/order": [
+        "error",
+        {
+          named: true,
+          alphabetize: {
+            order: "asc",
+          },
+          distinctGroup: false,
+          "newlines-between": "always",
+          groups: [
+            ["builtin", "external", "internal"],
+            ["parent", "sibling", "index", "object"],
+            "type",
+          ],
+          pathGroups: [
+            {
+              group: "builtin",
+              pattern: "react",
+              position: "before",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["react"],
+          sortTypesGroup: true,
         },
       ],
     },

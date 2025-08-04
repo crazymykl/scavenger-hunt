@@ -1,5 +1,6 @@
 import { Card, Center, SimpleGrid, Stack } from "@mantine/core"
 import { QRCodeSVG } from "qrcode.react"
+
 import type { Hunt, RawItem, Shadow } from "../lib"
 
 const Item = ({ item }: { item: RawItem }) => {

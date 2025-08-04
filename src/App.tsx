@@ -1,14 +1,16 @@
-import { Navigate, Route, Routes, useParams } from "react-router"
-import { Hunt } from "./features/hunt/Hunt"
-import { ScanControl } from "./features/scan/ScanControl"
 import { AppShell, Center, Group } from "@mantine/core"
-import { OptionsMenu } from "./features/OptionsMenu"
-import { ResetControl } from "./features/hunt/ResetControl"
-import { useLazyGetHuntQuery } from "./services/api"
-import { type Hunt as HuntData } from "./features/hunt/lib"
+import { Navigate, Route, Routes, useParams } from "react-router"
+
 import { useAppSelector } from "./app/hooks"
-import { huntSlice } from "./features/hunt/huntSlice"
 import { ActionButton } from "./features/ActionButton"
+import { OptionsMenu } from "./features/OptionsMenu"
+import { Hunt } from "./features/hunt/Hunt"
+import { ResetControl } from "./features/hunt/ResetControl"
+import { huntSlice } from "./features/hunt/huntSlice"
+import { ScanControl } from "./features/scan/ScanControl"
+import { useLazyGetHuntQuery } from "./services/api"
+
+import type { Hunt as HuntData } from "./features/hunt/lib"
 
 const ItemDetailsHelper = ({
   hunt,

@@ -1,10 +1,12 @@
 import { SimpleGrid, Stack } from "@mantine/core"
 import { Outlet } from "react-router"
-import { useWindowDimensions } from "../../app/hooks"
+
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
-import type { Hunt as HuntData } from "./lib"
 import { Reward } from "./Reward"
+import { useWindowDimensions } from "../../app/hooks"
+
+import type { Hunt as HuntData } from "./lib"
 
 export const Hunt = ({ hunt }: { hunt: HuntData }) => {
   const CELL_SPACING = 2

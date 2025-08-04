@@ -1,21 +1,24 @@
 import { createRef, useEffect, useState } from "react"
-import { useNavigate } from "react-router"
 import {
+  Center,
   FocusTrap,
   Group,
-  Modal,
-  PinInput,
-  Text,
   Image,
-  Center,
+  Modal,
+  Paper,
+  PinInput,
   Progress,
   Stack,
-  Paper,
+  Text,
 } from "@mantine/core"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { huntSlice } from "./huntSlice"
+import { useNavigate } from "react-router"
+
 import styles from "./ItemDetails.module.css"
-import { type Item, validCode } from "./lib"
+import { huntSlice } from "./huntSlice"
+import { validCode } from "./lib"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+
+import type { Item } from "./lib"
 
 type CodeInputState =
   | { state: "ready" }

@@ -1,7 +1,8 @@
-import type { AppStore } from "../../app/store"
+import { huntSlice, initialState } from "./huntSlice"
 import { makeStore } from "../../app/store"
 import { hunt } from "../../utils/test-utils"
-import { huntSlice, initialState } from "./huntSlice"
+
+import type { AppStore } from "../../app/store"
 
 type LocalTestContext = {
   store: AppStore

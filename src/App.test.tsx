@@ -1,5 +1,8 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react"
+import { mock } from "node:test"
+
 import App from "./App"
+import { handleCodes } from "./features/scan/ScanControl"
 import {
   getUrl,
   hunt,
@@ -7,8 +10,6 @@ import {
   qrCode,
   renderWithProviders,
 } from "./utils/test-utils"
-import { handleCodes } from "./features/scan/ScanControl"
-import { mock } from "node:test"
 
 beforeEach(() => window.localStorage.clear())
 

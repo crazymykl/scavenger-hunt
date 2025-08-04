@@ -1,10 +1,12 @@
 import React from "react"
+import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
+
 import AdminApp from "./AdminApp"
 import { store } from "./app/store"
+
 import "./index.css"
-import { ColorSchemeScript, MantineProvider } from "@mantine/core"
 
 const container = document.getElementById("root")
 
