@@ -27,4 +27,4 @@ export const api = createApi({
   }),
 })
 
-export const { useLazyGetHuntQuery, useLazyGetShadowQuery } = api
+export const { useGetHuntQuery, useGetShadowQuery } = api

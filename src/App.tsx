@@ -8,7 +8,7 @@ import { Hunt } from "./features/hunt/Hunt"
 import { ResetControl } from "./features/hunt/ResetControl"
 import { huntSlice } from "./features/hunt/huntSlice"
 import { ScanControl } from "./features/scan/ScanControl"
-import { useLazyGetHuntQuery } from "./services/api"
+import { useGetHuntQuery } from "./services/api"
 
 import type { Hunt as HuntData } from "./features/hunt/lib"
 
@@ -38,8 +38,7 @@ const App = ({
 }: {
   transitionDuration?: number
 }) => {
-  const [trigger, { data: hunt, isLoading, error }] = useLazyGetHuntQuery()
-  if (!hunt && !isLoading) void trigger(undefined)
+  const { data: hunt, isLoading, error } = useGetHuntQuery(undefined)
   const done = useAppSelector(huntSlice.selectors.selectComplete)
 
   return (
@@ -58,8 +57,8 @@ const App = ({
               element={
                 isLoading ? (
                   "Loading..."
-                ) : error || !hunt ? (
-                  `Error: ${error ? JSON.stringify(error) : /* v8 ignore next */ "General Failure"}`
+                ) : /* v8 ignore next */ error || !hunt ? (
+                  `Error: ${error ? JSON.stringify(error) : "General Failure"}`
                 ) : (
                   <Hunt hunt={hunt} />
                 )

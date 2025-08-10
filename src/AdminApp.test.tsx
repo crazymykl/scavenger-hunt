@@ -6,7 +6,7 @@ import { loadingDone, renderWithProviders } from "./utils/test-utils"
 beforeEach(() => window.localStorage.clear())
 
 test("App should have correct initial render", async () => {
-  renderWithProviders(<AdminApp />)
+  renderWithProviders(<AdminApp />, { preloadShadow: true })
   await loadingDone()
 
   expect(screen.getByText("111111")).toBeInTheDocument()
