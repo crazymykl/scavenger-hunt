@@ -7,6 +7,7 @@ import { MemoryRouter, useLocation } from "react-router"
 import { makeStore } from "../app/store"
 import { bakeRawHunt } from "../features/hunt/lib"
 import testHunt from "../features/hunt/testHunt.json"
+import { api } from "../services/api"
 
 import type { PropsWithChildren, ReactElement } from "react"
 import type { FetchBaseQueryArgs } from "@reduxjs/toolkit/query"
@@ -40,6 +41,8 @@ type ExtendedRenderOptions = {
   store?: AppStore
 
   route?: string
+  preloadHunt?: boolean
+  preloadShadow?: boolean
 } & Omit<RenderOptions, "queries">
 
 /**
@@ -61,6 +64,8 @@ export const renderWithProviders = (
       overrideBaseQueryArgs: mockedBaseQueryArgs,
     }),
     route = "/",
+    preloadHunt = true,
+    preloadShadow = false,
     ...renderOptions
   } = extendedRenderOptions
 
@@ -71,12 +76,39 @@ export const renderWithProviders = (
       </span>
     )
 
+    const ApiPreloader = ({
+      children,
+      preloadHunt,
+      preloadShadow,
+    }: PropsWithChildren<{
+      preloadHunt: boolean
+      preloadShadow: boolean
+    }>) => {
+      if (preloadHunt) {
+        const [getHunt, { isUninitialized: huntUninit }] =
+          api.useLazyGetHuntQuery()
+        if (huntUninit) void getHunt(undefined)
+      }
+      if (preloadShadow) {
+        const [getShadow, { isUninitialized: shadowUninit }] =
+          api.useLazyGetShadowQuery()
+        if (shadowUninit) void getShadow(undefined)
+      }
+
+      return children
+    }
+
     return (
       <Provider store={store}>
         <ColorSchemeScript defaultColorScheme="auto" />
         <MantineProvider defaultColorScheme="auto">
           <MemoryRouter initialEntries={[route]}>
-            <LocationSpy>{children}</LocationSpy>
+            <ApiPreloader
+              preloadHunt={preloadHunt}
+              preloadShadow={preloadShadow}
+            >
+              <LocationSpy>{children}</LocationSpy>
+            </ApiPreloader>
           </MemoryRouter>
         </MantineProvider>
       </Provider>

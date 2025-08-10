@@ -2,14 +2,11 @@ import { AppShell, Center, Group } from "@mantine/core"
 
 import { AdminHunt } from "./features/hunt/admin/AdminHunt"
 import { ThemeToggle } from "./features/theme/ThemeToggle"
-import { useLazyGetHuntQuery, useLazyGetShadowQuery } from "./services/api"
+import { useGetHuntQuery, useGetShadowQuery } from "./services/api"
 
 const AdminApp = () => {
-  const [trigger, { data: hunt, isLoading }] = useLazyGetHuntQuery()
-  if (!hunt && !isLoading) void trigger(undefined)
-  const [shadowTrigger, { data: shadow, isLoading: shadowLoading }] =
-    useLazyGetShadowQuery()
-  if (!shadow && !shadowLoading) void shadowTrigger(undefined)
+  const { data: hunt, isLoading } = useGetHuntQuery(undefined)
+  const { data: shadow } = useGetShadowQuery(undefined)
 
   return (
     <AppShell header={{ height: 48 }}>
