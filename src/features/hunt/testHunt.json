@@ -1,5 +1,8 @@
 {
   "name": "test hunt",
+  "introTitle": "Welcome to the test hunt!",
+  "introText": "Find all the items to complete the hunt!",
+  "introImage": "https://placehold.co/200/purple/white",
   "rewardTitle": "You found all the items!",
   "rewardImage": "https://placehold.co/200/blue/white",
   "rewardText": "Congratulations!",

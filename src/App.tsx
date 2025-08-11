@@ -78,6 +78,9 @@ const App = ({
               {hunt && done && (
                 <Route path="/reward" element={<Hunt.Reward hunt={hunt} />} />
               )}
+              {hunt && (
+                <Route path="/intro" element={<Hunt.Intro hunt={hunt} />} />
+              )}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>

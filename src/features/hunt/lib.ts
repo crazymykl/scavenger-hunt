@@ -20,6 +20,9 @@ export type Item = BaseItem & {
 
 export type RawHunt = {
   name: string
+  introTitle: string
+  introText: string
+  introImage: string
   rewardTitle: string
   rewardText: string
   rewardImage: string

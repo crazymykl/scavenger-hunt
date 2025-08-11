@@ -1,6 +1,7 @@
 import { SimpleGrid, Stack } from "@mantine/core"
 import { Outlet } from "react-router"
 
+import { Intro } from "./Intro"
 import { Item } from "./Item"
 import { ItemDetails } from "./ItemDetails"
 import { Reward } from "./Reward"
@@ -32,3 +33,4 @@ export const Hunt = ({ hunt }: { hunt: HuntData }) => {
 Hunt.Item = Item
 Hunt.ItemDetails = ItemDetails
 Hunt.Reward = Reward
+Hunt.Intro = Intro
