@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Burger, Menu, useMantineColorScheme } from "@mantine/core"
-import { IconMoon, IconRestore, IconSun } from "@tabler/icons-react"
+import { IconHelp, IconMoon, IconRestore, IconSun } from "@tabler/icons-react"
 import { useNavigate } from "react-router"
 
 export const OptionsMenu = () => {
@@ -25,6 +25,12 @@ export const OptionsMenu = () => {
           onClick={toggleColorScheme}
         >
           Toggle Theme
+        </Menu.Item>
+        <Menu.Item
+          leftSection={<IconHelp size={14} />}
+          onClick={() => navigate("/intro")}
+        >
+          Introduction
         </Menu.Item>
         <Menu.Item
           color="red"

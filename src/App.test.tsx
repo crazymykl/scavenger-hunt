@@ -45,6 +45,16 @@ test("Theme toggle should work", async () => {
   expect(document.documentElement.dataset.mantineColorScheme).toEqual("light")
 })
 
+test("Introduction page should work", async () => {
+  const { user } = renderWithProviders(<App />)
+
+  await user.click(screen.getByTestId("options-menu"))
+  await user.click(await waitFor(() => screen.getByText("Introduction")))
+
+  expect(getUrl()).toEqual("/intro")
+  expect(screen.getByAltText("Intro")).toBeInTheDocument()
+})
+
 test("Viewing unfound details", async () => {
   renderWithProviders(<App />, { route: "/find/1" })
   await loadingDone()
