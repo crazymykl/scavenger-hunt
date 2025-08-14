@@ -169,4 +169,6 @@ export const loadingDone = () =>
     expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument(),
   )
 
-export const getUrl = () => screen.getByTestId("url").dataset.url
+export const getCurrentUrl = () => screen.getByTestId("url").dataset.url
+
+export const checkCode = (idx: number): string => shadow[hunt.items[idx].id]

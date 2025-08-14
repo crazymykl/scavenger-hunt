@@ -4,7 +4,8 @@ import { mock } from "node:test"
 import App from "./App"
 import { handleCodes } from "./features/scan/ScanControl"
 import {
-  getUrl,
+  checkCode,
+  getCurrentUrl,
   hunt,
   loadingDone,
   qrCode,
@@ -17,7 +18,7 @@ test("App should have correct initial render", async () => {
   renderWithProviders(<App />)
   await loadingDone()
 
-  expect(screen.getByAltText("find one")).toBeInTheDocument()
+  expect(screen.getByAltText(hunt.items[0].searchText)).toBeInTheDocument()
 })
 
 test("App should handle resize", async () => {
@@ -30,7 +31,7 @@ test("App should handle resize", async () => {
   window.innerHeight = w
   fireEvent(window, new Event("resize"))
 
-  expect(screen.getByAltText("find one")).toBeInTheDocument()
+  expect(screen.getByAltText(hunt.items[0].searchText)).toBeInTheDocument()
 })
 
 test("Theme toggle should work", async () => {
@@ -51,38 +52,38 @@ test("Introduction page should work", async () => {
   await user.click(screen.getByTestId("options-menu"))
   await user.click(await waitFor(() => screen.getByText("Introduction")))
 
-  expect(getUrl()).toEqual("/intro")
-  expect(screen.getByAltText("Intro")).toBeInTheDocument()
+  expect(getCurrentUrl()).toEqual("/intro")
+  expect(screen.getByAltText(hunt.introText)).toBeInTheDocument()
 })
 
 test("Viewing unfound details", async () => {
-  renderWithProviders(<App />, { route: "/find/1" })
+  renderWithProviders(<App />, { route: `/find/${hunt.items[0].id}` })
   await loadingDone()
 
-  expect(screen.getByText("find one")).toBeInTheDocument()
+  expect(screen.getByText(hunt.items[0].searchText)).toBeInTheDocument()
 })
 
 test("Viewing details of an invalid id redirects to the root", async () => {
   renderWithProviders(<App />, { route: "/find/foo" })
 
-  await waitFor(() => expect(getUrl()).toEqual("/"))
+  await waitFor(() => expect(getCurrentUrl()).toEqual("/"))
 })
 
 test("Invalid route redirects to the root", async () => {
   renderWithProviders(<App />, { route: "/bluh" })
 
-  await waitFor(() => expect(getUrl()).toEqual("/"))
+  await waitFor(() => expect(getCurrentUrl()).toEqual("/"))
 })
 
 test("Finding an item should work as expected", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />)
   await loadingDone()
 
-  await user.click(screen.getByAltText("find one"))
-  await user.keyboard("111111")
+  await user.click(screen.getByAltText(hunt.items[0].searchText))
+  await user.keyboard(checkCode(0))
 
   await waitFor(() =>
-    expect(screen.getByAltText("found one")).toBeInTheDocument(),
+    expect(screen.getByAltText(hunt.items[0].foundText)).toBeInTheDocument(),
   )
 })
 
@@ -90,9 +91,9 @@ test("Wrong code blocks finding", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />)
   await loadingDone()
 
-  await user.click(screen.getByAltText("find one"))
+  await user.click(screen.getByAltText(hunt.items[0].searchText))
   const [pinInput] = screen.getAllByLabelText("PinInput")
-  await user.keyboard("111112")
+  await user.keyboard(checkCode(1))
 
   await waitFor(() => expect(pinInput.dataset.error).toEqual("true"))
   await waitFor(() => expect(pinInput.dataset.error).toBeUndefined())
@@ -124,47 +125,47 @@ test("Doesn't fire callback when an invalid QR code is scanned", () => {
 
 test("Starting over should work as expected", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />, {
-    route: "/find/1/111111",
+    route: `/find/${hunt.items[0].id}/${checkCode(0)}`,
   })
 
   await waitFor(() =>
-    expect(screen.getByAltText("found one")).toBeInTheDocument(),
+    expect(screen.getByAltText(hunt.items[0].foundText)).toBeInTheDocument(),
   )
 
   await user.click(screen.getByTestId("options-menu"))
   await user.click(await waitFor(() => screen.getByText("Start Over")))
   await user.click(await waitFor(() => screen.getByText("Reset")))
 
-  expect(screen.getByAltText("find one")).toBeInTheDocument()
+  expect(screen.getByAltText(hunt.items[0].searchText)).toBeInTheDocument()
 })
 
 test("Unearned reward route redirects to the root", async () => {
   renderWithProviders(<App />, { route: "/reward" })
 
-  await waitFor(() => expect(getUrl()).toEqual("/"))
+  await waitFor(() => expect(getCurrentUrl()).toEqual("/"))
 })
 
 test("Marking all items founds earns acccess to the reward route", async () => {
   const { user } = renderWithProviders(<App transitionDuration={50} />, {
-    route: "/find/2/111112",
+    route: `/find/${hunt.items[1].id}/${checkCode(1)}`,
   })
 
   await waitFor(() =>
-    expect(screen.getByAltText("found two")).toBeInTheDocument(),
+    expect(screen.getByAltText(hunt.items[1].foundText)).toBeInTheDocument(),
   )
 
-  await user.click(screen.getByAltText("find one"))
+  await user.click(screen.getByAltText(hunt.items[0].searchText))
   const [pinInput] = screen.getAllByLabelText("PinInput")
   await user.click(pinInput)
-  await user.keyboard("111111")
+  await user.keyboard(checkCode(0))
 
   await waitFor(() =>
-    expect(screen.getByAltText("found one")).toBeInTheDocument(),
+    expect(screen.getByAltText(hunt.items[0].foundText)).toBeInTheDocument(),
   )
 
   await user.click(screen.getByText("View Reward"))
 
-  await waitFor(() => expect(getUrl()).toEqual("/reward"))
+  await waitFor(() => expect(getCurrentUrl()).toEqual("/reward"))
   expect(screen.getByText(hunt.rewardTitle)).toBeInTheDocument()
-  expect(screen.getByText(hunt.rewardText)).toBeInTheDocument()
+  expect(screen.getByAltText(hunt.rewardText)).toBeInTheDocument()
 })

@@ -1,5 +1,7 @@
-import { Group, Image, Modal, Paper, Text } from "@mantine/core"
+import { Image, Modal } from "@mantine/core"
 import { useNavigate } from "react-router"
+
+import imageStyles from "./images.module.css"
 
 import type { Hunt } from "./lib"
 
@@ -14,12 +16,11 @@ export const Intro = ({ hunt }: { hunt: Hunt }) => {
       title={hunt.introTitle}
       centered
     >
-      <Group>
-        <Image src={hunt.introImage} alt="Intro" w={250} />
-        <Paper w={250}>
-          <Text>{hunt.introText}</Text>
-        </Paper>
-      </Group>
+      <Image
+        src={hunt.introImage}
+        alt={hunt.introText}
+        className={imageStyles.hero}
+      />
     </Modal>
   )
 }
