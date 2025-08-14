@@ -47,10 +47,10 @@ export const ItemDetails = ({
         transitionDuration={transitionDuration}
       />
     ) : (
-      <Group>
+      <Group justify="center">
         <Image src={item.foundImage} w={250} />
         <Paper w={250}>
-          <Text>{item.foundText}</Text>
+          <Text ta="center">{item.foundText}</Text>
         </Paper>
       </Group>
     )
@@ -110,10 +110,10 @@ const UnfoundItemDetailsBody = ({
 
   return (
     <>
-      <Group mb="1rem">
+      <Group mb="1rem" justify="center">
         <Image src={item.searchImage} w={250} />
         <Paper w={250}>
-          <Text>{item.searchText}</Text>
+          <Text ta="center">{item.searchText}</Text>
         </Paper>
       </Group>
       <Center>
