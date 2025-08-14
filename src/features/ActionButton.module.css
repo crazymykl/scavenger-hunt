@@ -10,13 +10,16 @@
   }
 }
 
+:root[data-mantine-color-scheme="dark"] .glowingAura button {
+  background-color: transparent;
+}
+
 .glowingAura {
   position: relative;
   animation: spin 1.5s linear infinite;
   filter: hue-rotate(var(--spin-angle));
 
   button {
-    background-color: transparent;
     border: 1px solid green;
     color: yellow;
   }

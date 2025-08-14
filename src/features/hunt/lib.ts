@@ -66,3 +66,6 @@ export const bakeRawHunt = (
     {},
   ),
 })
+
+export const makeAbsoluteUrl = (path: string): string =>
+  new URL(path, window.location.href).toString()
