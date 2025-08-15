@@ -1,0 +1,12 @@
+.nameOverlay {
+  position: relative;
+
+  > span {
+    mix-blend-mode: difference;
+    position: absolute;
+    color: white;
+    text-shadow: lightgray 1px 1px 3px;
+    font-size: 1.5em;
+    left: 0.5em;
+  }
+}

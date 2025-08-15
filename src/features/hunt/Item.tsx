@@ -1,6 +1,7 @@
 import { Image } from "@mantine/core"
 import { Link } from "react-router"
 
+import styles from "./Item.module.css"
 import { huntSlice } from "./huntSlice"
 import { useAppSelector } from "../../app/hooks"
 
@@ -18,7 +19,8 @@ export const Item = ({ item }: { item: ItemData }) => {
 
   return (
     <>
-      <Link to={`/find/${item.id}`}>
+      <Link to={`/find/${item.id}`} className={styles.nameOverlay}>
+        {progress === "unfound" && <span>{item.name}</span>}
         <Image src={imageSrc} alt={imageAlt} />
       </Link>
     </>
