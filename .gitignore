@@ -14,6 +14,10 @@ dist
 dist-ssr
 *.local
 
+# checking `public` in is an option if your source code is private
+# it lets the codepipeline restore the hunt on each deployment
+public
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

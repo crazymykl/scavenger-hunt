@@ -16,6 +16,6 @@
     "jsx": "react-jsx",
     "types": ["vitest/globals"]
   },
-  "include": ["src", "eslint.config.ts"],
+  "include": ["src", "eslint.config.ts", "bin"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
