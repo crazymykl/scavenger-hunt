@@ -1,4 +1,4 @@
-import { SimpleGrid, Stack } from "@mantine/core"
+import { Badge, SimpleGrid, Stack } from "@mantine/core"
 import { Outlet } from "react-router"
 
 import { Intro } from "./Intro"
@@ -26,6 +26,7 @@ export const Hunt = ({ hunt }: { hunt: HuntData }) => {
       >
         {listItems}
       </SimpleGrid>
+      <Badge variant="outline">Tap a square to reveal a clue</Badge>
       <Outlet />
     </Stack>
   )
