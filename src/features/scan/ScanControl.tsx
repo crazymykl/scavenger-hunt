@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import { Container, Group, Modal } from "@mantine/core"
+import { Container, Group, Modal, Text } from "@mantine/core"
 import { BarcodeScanner } from "react-barcode-scanner"
 import { useNavigate } from "react-router"
 
@@ -37,11 +37,18 @@ export const ScanControl = ({
       title="Scan QR Code"
       centered
     >
-      <Group>
-        <Container w={250} h={250}>
+      <Group justify="center">
+        <Container w={250} h={250} p={0}>
           <BarcodeScanner onCapture={checkCode} />
         </Container>
-        You can scan if you want to.
+        <Text w={250} span ta="center">
+          Point your camera at a QR code to scan it. If it is a part of this
+          hunt, you will automatically fill the square it represents.
+          <br />
+          <br />
+          Alternatively, you can manually enter the numeric code next to the QR
+          code into the item square indicated nearby.
+        </Text>
       </Group>
     </Modal>
   )
